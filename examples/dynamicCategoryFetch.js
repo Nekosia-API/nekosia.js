@@ -1,14 +1,9 @@
-const NekosiaAPI = require('../index.js');
+const { NekosiaAPI } = require('../index.js');
 
 const fetchImages = async (category, options = {}) => {
 	try {
-		const methodName = `get${category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, '')}`;
-		if (typeof NekosiaAPI[methodName] !== 'function') {
-			throw new Error(`Method ${methodName} does not exist on NekosiaAPI`);
-		}
-
-		const images = await NekosiaAPI[methodName](options);
-		console.log(`${category.toUpperCase()}:`, images);
+		const response = await NekosiaAPI.fetchImages(category, options);
+		console.log(`${category.toUpperCase()}:`, response);
 	} catch (err) {
 		console.error(`Error fetching ${category} images:`, err);
 	}

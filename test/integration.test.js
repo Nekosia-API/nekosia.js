@@ -1,6 +1,5 @@
-const api = require('../index.js');
+const { NekosiaAPI } = require('../index.js');
 const https = require('../services/https.js');
-const categories = require('../categories.js');
 
 jest.mock('../services/https.js');
 
@@ -9,20 +8,11 @@ describe('NekosiaAPI', () => {
 		https.get.mockClear();
 	});
 
-	describe('initializeCategoryMethods', () => {
-		it('should create methods for each category', () => {
-			categories.forEach(category => {
-				const methodName = `fetch${category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, '')}Images`;
-				expect(typeof api[methodName]).toBe('function');
-			});
-		});
-	});
-
 	describe('buildQueryParams', () => {
 		it('should correctly build query params', () => {
-			const options = { count: 3, additionalTags: 'tag1,tag2', emptyValue: '', nullValue: null };
-			const result = api.buildQueryParams(options);
-			expect(result).toBe('count=3&additionalTags=tag1%2Ctag2');
+			const options = { count: 3, additionalTags: ['tag1', 'tag2', 'tag3', 'tag4'], emptyValue: '', nullValue: null };
+			const result = NekosiaAPI.buildQueryParams(options);
+			expect(result).toBe('count=3&additionalTags=tag1,tag2,tag3,tag4');
 		});
 	});
 
@@ -32,7 +22,7 @@ describe('NekosiaAPI', () => {
 			https.get.mockResolvedValue(mockResponse);
 
 			const endpoint = 'https://api.nekosia.cat/test-endpoint';
-			const res = await api.makeHttpRequest(endpoint);
+			const res = await NekosiaAPI.makeHttpRequest(endpoint);
 
 			expect(res).toEqual(mockResponse);
 			expect(https.get).toHaveBeenCalledWith(endpoint);
@@ -46,20 +36,20 @@ describe('NekosiaAPI', () => {
 
 			const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-			await expect(api.makeHttpRequest(endpoint)).rejects.toThrow('Request failed');
+			await expect(NekosiaAPI.makeHttpRequest(endpoint)).rejects.toThrow('Request failed');
 			expect(https.get).toHaveBeenCalledWith(endpoint);
 
 			consoleErrorSpy.mockRestore();
 		});
 	});
 
-	describe('fetchImagesByCategory', () => {
-		it('should build correct endpoint and make request', async () => {
+	describe('fetchImages', () => {
+		it('should build correct endpoint and make request for given category', async () => {
 			const mockResponse = { data: { results: [] } };
 			https.get.mockResolvedValue(mockResponse);
 
-			const expectedEndpoint = `${api.baseURL}/api/v1/images/catgirl?count=2&additionalTags=cute`;
-			const res = await api.fetchImagesByCategory('catgirl', { count: 2, additionalTags: 'cute' });
+			const expectedEndpoint = 'https://api.nekosia.cat/api/v1/images/catgirl?count=2&additionalTags=cute';
+			const res = await NekosiaAPI.fetchImages('catgirl', { count: 2, additionalTags: 'cute' });
 
 			expect(res).toEqual(mockResponse);
 			expect(https.get).toHaveBeenCalledWith(expectedEndpoint);
@@ -67,16 +57,16 @@ describe('NekosiaAPI', () => {
 	});
 
 	describe('fetchShadowImages', () => {
-		it('should throw an error if additionalTagsArray is empty', async () => {
-			await expect(api.fetchShadowImages([])).rejects.toThrow('additionalTagsArray must be a non-empty array for the shadow category.');
+		it('should throw an error if additionalTags is empty', async () => {
+			await expect(NekosiaAPI.fetchShadowImages({})).rejects.toThrow('`additionalTags` must be a non-empty array for the shadow category');
 		});
 
-		it('should correctly call fetchImagesByCategory with additionalTags', async () => {
+		it('should correctly call fetchImages with additionalTags', async () => {
 			const mockResponse = { data: { results: [] } };
 			https.get.mockResolvedValue(mockResponse);
 
-			const expectedEndpoint = `${api.baseURL}/api/v1/images/shadow?count=1&additionalTags=dark%2Cshadow`;
-			const res = await api.fetchShadowImages(['dark', 'shadow'], { count: 1 });
+			const expectedEndpoint = 'https://api.nekosia.cat/api/v1/images/shadow?count=1&additionalTags=dark,shadow';
+			const res = await NekosiaAPI.fetchShadowImages({ count: 1, additionalTags: ['dark', 'shadow'] });
 
 			expect(res).toEqual(mockResponse);
 			expect(https.get).toHaveBeenCalledWith(expectedEndpoint);
@@ -85,7 +75,7 @@ describe('NekosiaAPI', () => {
 
 	describe('fetchById', () => {
 		it('should throw an error if id is not provided', async () => {
-			await expect(api.fetchById()).rejects.toThrow('id parameter is required.');
+			await expect(NekosiaAPI.fetchById()).rejects.toThrow('`id` parameter is required');
 		});
 
 		it('should correctly fetch image by ID', async () => {
@@ -93,10 +83,10 @@ describe('NekosiaAPI', () => {
 			https.get.mockResolvedValue(mockResponse);
 
 			const id = '123';
-			const res = await api.fetchById(id);
+			const res = await NekosiaAPI.fetchById(id);
 
 			expect(res).toEqual(mockResponse);
-			expect(https.get).toHaveBeenCalledWith(`${api.baseURL}/api/v1/getImageById/${id}`);
+			expect(https.get).toHaveBeenCalledWith(`https://api.nekosia.cat/api/v1/getImageById/${id}`);
 		});
 	});
 });

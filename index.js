@@ -1,26 +1,18 @@
 const https = require('./services/https.js');
-const categories = require('./categories.js');
+const BASE_URL = 'https://api.nekosia.cat';
+const API_URL = `${BASE_URL}/api/v1`;
 
 class NekosiaAPI {
-	constructor() {
-		this.baseURL = 'https://api.nekosia.cat/api/v1';
-		this.initializeCategoryMethods();
-	}
-
-	initializeCategoryMethods() {
-		categories.forEach(category => {
-			this[this.buildMethodName(category)] = options => this.fetchImagesByCategory(category, options);
-		});
-	}
-
-	buildMethodName(category) {
-		return `fetch${category.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase()).replace(/\s/g, '')}Images`;
-	}
-
 	buildQueryParams(options = {}) {
 		return Object.entries(options)
-			.filter(([, value]) => value != null && value !== '' && (!Array.isArray(value) || value.length))
-			.map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
+			.filter(([, value]) => {
+				if (typeof value === 'string' && value.includes(',')) {
+					throw new Error('A single tag in the string cannot contain commas. Please use an array instead.');
+				}
+
+				return value != null && value !== '' && (!Array.isArray(value) || value.length > 0);
+			})
+			.map(([key, value]) => `${encodeURIComponent(key)}=${value}`)
 			.join('&');
 	}
 
@@ -33,7 +25,19 @@ class NekosiaAPI {
 		}
 	}
 
-	fetchImagesByCategory(category, options = {}) {
+	async fetchImages(category, options = {}) {
+		if (!category) {
+			throw new Error('The image category is required. For example, use fetchImages(\'catgirl\').');
+		}
+
+		if (options.session && !['id', 'ip'].includes(options.session)) {
+			throw new Error('The `session` setting can contain only the following values `id` and `ip`, both as strings.');
+		}
+
+		if (!options.session && options.id) {
+			throw new Error('`id` is not required if the session is `null` or `undefined`');
+		}
+
 		const queryString = this.buildQueryParams({
 			session: null,
 			id: null,
@@ -42,25 +46,33 @@ class NekosiaAPI {
 			blacklistedTags: [],
 			...options
 		});
-		return this.makeHttpRequest(`${this.baseURL}/images/${category}?${queryString}`);
+
+		return this.makeHttpRequest(`${API_URL}/images/${category}?${queryString}`);
 	}
 
-	async fetchShadowImages(additionalTagsArray = [], options = {}) {
-		if (!additionalTagsArray.length) {
-			throw new Error('`additionalTagsArray` must be a non-empty array for the shadow category');
+	async fetchShadowImages(options = {}) {
+		if (!Array.isArray(options.additionalTags) || options.additionalTags.length === 0) {
+			throw new Error('`additionalTags` must be a non-empty array for the shadow category');
 		}
 
-		return this.fetchImagesByCategory('shadow', {
-			...options,
-			additionalTags: additionalTagsArray.join(',')
-		});
+		return this.fetchImages('shadow', options);
 	}
 
 	async fetchById(id) {
 		if (!id) throw new Error('`id` parameter is required');
 
-		return this.makeHttpRequest(`${this.baseURL}/getImageById/${id}`);
+		return this.makeHttpRequest(`${API_URL}/getImageById/${id}`);
 	}
 }
 
-module.exports = new NekosiaAPI();
+const NekosiaVersion = {
+	module: https.version,
+	api: async () => {
+		return await https.get(BASE_URL);
+	}
+};
+
+module.exports = {
+	NekosiaAPI: new NekosiaAPI(),
+	NekosiaVersion
+};

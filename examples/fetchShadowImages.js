@@ -1,6 +1,6 @@
-const NekosiaAPI = require('../index.js');
+const { NekosiaAPI } = require('../index.js');
 
 (async () => {
-	const data = await NekosiaAPI.fetchShadowImages(['cute', 'blue-hair'], { session: 'ip', count: 1 });
-	console.log(data);
+	const response = await NekosiaAPI.fetchShadowImages({ session: 'ip', count: 1, additionalTags: ['cute', 'blue-hair'] });
+	console.log(response);
 })();

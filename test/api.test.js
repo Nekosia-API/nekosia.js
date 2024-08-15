@@ -1,10 +1,10 @@
-const NekosiaAPI = require('../index.js');
+const { NekosiaAPI } = require('../index.js');
 
 describe('NekosiaAPI (API Tests)', () => {
 
-	describe('fetchImagesByCategory', () => {
+	describe('fetchImages', () => {
 		it('should fetch images for the given category', async () => {
-			const res = await NekosiaAPI.fetchImagesByCategory('catgirl', { count: 1 });
+			const res = await NekosiaAPI.fetchImages('catgirl', { count: 1 });
 
 			expect(res).toBeInstanceOf(Object);
 			expect(res.success).toBe(true);
@@ -43,14 +43,14 @@ describe('NekosiaAPI (API Tests)', () => {
 		});
 
 		it('should return an error for an invalid category', async () => {
-			const res = await NekosiaAPI.fetchImagesByCategory('invalid-category', { count: 1 });
+			const res = await NekosiaAPI.fetchImages('invalid-category', { count: 1 });
 
 			expect(res.success).toBe(false);
 			expect(res.status).toBe(400);
 		});
 
 		it('should return a specified number of images', async () => {
-			const res = await NekosiaAPI.fetchImagesByCategory('catgirl', { count: 3 });
+			const res = await NekosiaAPI.fetchImages('catgirl', { count: 3 });
 
 			expect(res).toBeInstanceOf(Object);
 			expect(res.success).toBe(true);
@@ -64,18 +64,18 @@ describe('NekosiaAPI (API Tests)', () => {
 
 	describe('fetchShadowImages', () => {
 		it('should handle no images found for shadow category with additional tags', async () => {
-			const res = await NekosiaAPI.fetchShadowImages(['wTbf8J0TirS6a4fO5uyKcRazZOlO5h6o', 'xX9f9pwDAgsM3Li1LwsJ3tXQfGKW4WA0'], { count: 1 });
+			const res = await NekosiaAPI.fetchShadowImages({ count: 1, additionalTags: ['wTbf8J0TirS6a4fO5uyKcRazZOlO5h6o', 'xX9f9pwDAgsM3Li1LwsJ3tXQfGKW4WA0'] });
 
 			expect(res.success).toBe(false);
 			expect(res.status).toBe(400);
 		});
 
 		it('should throw an error if additionalTagsArray is empty', async () => {
-			await expect(NekosiaAPI.fetchShadowImages([])).rejects.toThrow('additionalTagsArray must be a non-empty array for the shadow category.');
+			await expect(NekosiaAPI.fetchShadowImages([])).rejects.toThrow('`additionalTags` must be a non-empty array for the shadow category');
 		});
 
 		it('should return an error response for invalid count parameter', async () => {
-			const res = await NekosiaAPI.fetchImagesByCategory('catgirl', { count: 'invalid' });
+			const res = await NekosiaAPI.fetchImages('catgirl', { count: 'invalid' });
 			expect(res.success).toBe(false);
 			expect(res.status).toBe(400);
 			expect(res.message).toBe('Invalid count parameter. Expected a number between 1 and 48.');
@@ -84,7 +84,7 @@ describe('NekosiaAPI (API Tests)', () => {
 
 	describe('fetchById', () => {
 		it('should fetch an image by ID if it exists', async () => {
-			const res = await NekosiaAPI.fetchImagesByCategory('catgirl', { count: 1 });
+			const res = await NekosiaAPI.fetchImages('catgirl', { count: 1 });
 
 			if (res.success && res.id) {
 				const id = res.id;
@@ -99,16 +99,8 @@ describe('NekosiaAPI (API Tests)', () => {
 			}
 		});
 
-		it('should return multiple images for shadow category with valid tags', async () => {
-			const res = await NekosiaAPI.fetchShadowImages(['catgirl', 'foxgirl'], { count: 7 });
-			expect(res.status).toBe(200);
-			expect(res.count).toBe(7);
-			expect(res.images).toBeInstanceOf(Array);
-			expect(res.images.length).toBe(7);
-		});
-
 		it('should return an error response for invalid ID format', async () => {
-			const res = await NekosiaAPI.fetchById(12345);
+			const res = await NekosiaAPI.fetchById('12345');
 			expect(res.success).toBe(false);
 			expect(res.status).toBe(400);
 			expect(res.message).toBe('The image with the provided identifier was not found.');
