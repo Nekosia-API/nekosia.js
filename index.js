@@ -9,66 +9,55 @@ class NekosiaAPI {
 
 	initializeCategoryMethods() {
 		categories.forEach(category => {
-			const methodName = `fetch${category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, '')}Images`;
+			const methodName = this.buildMethodName(category);
 			this[methodName] = (options = {}) => this.fetchImagesByCategory(category, options);
 		});
 	}
 
-	buildQueryParams(options) {
-		const params = new URLSearchParams();
-		Object.entries(options).forEach(([key, value]) => {
-			if (value !== null && value !== undefined && value !== '') {
-				params.append(key, value);
-			}
-		});
-		return params.toString();
+	buildMethodName(category) {
+		return `fetch${category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, '')}Images`;
 	}
 
-	async makeHttpRequest(category, options) {
-		const queryString = this.buildQueryParams(options);
-		const endpoint = `${this.baseURL}/api/v1/images/${category}?${queryString}`;
+	buildQueryParams(options) {
+		return new URLSearchParams(Object.entries(options).filter(([, value]) => value != null && value !== '')).toString();
+	}
+
+	async makeHttpRequest(endpoint) {
 		try {
-			const response = await https.get(endpoint);
-			return response.data || response; // Assuming https.get returns a response object with data property
-		} catch (error) {
-			console.error(`Error fetching images for category ${category}:`, error.message);
-			throw error;
+			return await https.get(endpoint);
+		} catch (err) {
+			console.error(`HTTP request failed for endpoint ${endpoint}:`, err.message);
+			throw err;
 		}
 	}
 
-	async fetchImagesByCategory(category, options = {}) {
-		const defaultOptions = {
+	fetchImagesByCategory(category, options = {}) {
+		const finalOptions = {
 			session: null,
 			id: null,
 			count: 1,
 			additionalTags: '',
-			blacklistedTags: ''
+			blacklistedTags: '',
+			...options
 		};
-		const finalOptions = { ...defaultOptions, ...options };
-		return this.makeHttpRequest(category, finalOptions);
+		const queryString = this.buildQueryParams(finalOptions);
+		const endpoint = `${this.baseURL}/api/v1/images/${category}?${queryString}`;
+		return this.makeHttpRequest(endpoint);
 	}
 
 	async fetchShadowImages(additionalTagsArray = [], options = {}) {
-		if (!Array.isArray(additionalTagsArray) || additionalTagsArray.length === 0) {
-			throw new Error('additionalTagsArray parameter is required and must be a non-empty array for the shadow category.');
+		if (!additionalTagsArray.length) {
+			throw new Error('additionalTagsArray must be a non-empty array for the shadow category.');
 		}
-
 		const additionalTags = additionalTagsArray.join(',');
 		return this.fetchImagesByCategory('shadow', { ...options, additionalTags });
 	}
 
 	async fetchById(id) {
-		if (!id) {
-			throw new Error('id parameter is required.');
-		}
-		const endpoint = `${this.baseURL}/api/v1/images/${id}`;
-		try {
-			const response = await https.get(endpoint);
-			return response.data || response;
-		} catch (error) {
-			console.error(`Error fetching image by ID ${id}:`, error.message);
-			throw error;
-		}
+		if (!id) throw new Error('id parameter is required.');
+
+		const endpoint = `${this.baseURL}/api/v1/getImageById/${id}`;
+		return this.makeHttpRequest(endpoint);
 	}
 }
 
