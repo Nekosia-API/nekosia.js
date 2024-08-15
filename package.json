@@ -2,15 +2,6 @@
   "name": "nekosia.js",
   "version": "0.1.0",
   "description": "Wrapper for Nekosia API",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest",
-    "up": "ncu -u && npm install && npm update && npm audit fix"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Nekosia-API/nekosia.js.git"
-  },
   "keywords": [
     "neko",
     "nekos",
@@ -18,16 +9,24 @@
     "catgirl",
     "catgirls",
     "anime",
-    "api",
-    "anime",
     "api"
   ],
-  "author": "Sefinek <contact@sefinek.net> (https://sefinek.net)",
-  "license": "ISC",
+  "homepage": "https://nekosia.cat",
   "bugs": {
     "url": "https://github.com/Nekosia-API/nekosia.js/issues"
   },
-  "homepage": "https://nekosia.cat",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nekosia-API/nekosia.js.git"
+  },
+  "license": "ISC",
+  "author": "Sefinek <contact@sefinek.net> (https://sefinek.net)",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "up": "ncu -u && npm install && npm update && npm audit fix"
+  },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "globals": "^15.9.0",
