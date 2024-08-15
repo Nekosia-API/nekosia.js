@@ -40,24 +40,21 @@ class NekosiaAPI {
 			blacklistedTags: '',
 			...options
 		};
+
 		const queryString = this.buildQueryParams(finalOptions);
-		const endpoint = `${this.baseURL}/api/v1/images/${category}?${queryString}`;
-		return this.makeHttpRequest(endpoint);
+		return this.makeHttpRequest(`${this.baseURL}/api/v1/images/${category}?${queryString}`);
 	}
 
 	async fetchShadowImages(additionalTagsArray = [], options = {}) {
-		if (!additionalTagsArray.length) {
-			throw new Error('additionalTagsArray must be a non-empty array for the shadow category.');
-		}
+		if (!additionalTagsArray.length) throw new Error('additionalTagsArray must be a non-empty array for the shadow category.');
+
 		const additionalTags = additionalTagsArray.join(',');
 		return this.fetchImagesByCategory('shadow', { ...options, additionalTags });
 	}
 
 	async fetchById(id) {
 		if (!id) throw new Error('id parameter is required.');
-
-		const endpoint = `${this.baseURL}/api/v1/getImageById/${id}`;
-		return this.makeHttpRequest(endpoint);
+		return this.makeHttpRequest(`${this.baseURL}/api/v1/getImageById/${id}`);
 	}
 }
 
