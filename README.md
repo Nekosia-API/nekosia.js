@@ -43,7 +43,7 @@ Users can edit image information, such as tags, which are crucial for us.
 Check out the [official documentation](https://nekosia.cat/documentation) to learn more.
 
 
-## 📦 Instalacja
+## 📦 Installation
 To install the Nekosia.js module, use the following command:
 
 ```bash
@@ -51,7 +51,7 @@ npm install neksosia.js
 ```
 
 
-## 🔤 Lista tagów
+## 🔤 Tag list
 You can find the main image categories [here](https://nekosia.cat/documentation?page=api-endpoints#tags-and-categories).
 The full list of tags is available [on the Booru site](https://nekosia.cat/booru/tags).
 
