@@ -43,6 +43,7 @@ The full list of tags is available [on the Booru site](https://nekosia.cat/booru
 
 ### Simple
 It's really not difficult...
+
 ```js
 const { NekosiaAPI } = require('nekosia.js');
 
@@ -55,6 +56,7 @@ const { NekosiaAPI } = require('nekosia.js');
 
 ### IP-based Sessions
 In this example, we used an IP-based session. What does this mean? Thanks to this solution, a user with a specific IP address will not encounter duplicates when randomly selecting images.
+
 ```js
 const { NekosiaAPI } = require('nekosia.js');
 
@@ -72,6 +74,7 @@ const { NekosiaAPI } = require('nekosia.js');
 
 ### ID-based Sessions
 You can also use `id`, but this will require providing a user identifier (e.g., from Discord). Pass this information in `id` as a string.
+
 ```js
 const { NekosiaAPI } = require('nekosia.js');
 
