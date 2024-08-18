@@ -1,4 +1,7 @@
-# 🖼️ Nekosia.js API — Random Anime Images
+<div align="center">
+    <h1>🖼️ Nekosia.js API — Random Anime Images</h1>
+</div>
+
 Nekosia.js is a Node.js module that provides easy access to the Nekosia API, a rich source of anime-themed images.
 The API offers a wide range of categories, allowing you to quickly and flexibly search for images according to your preferences and needs.
 You decide what images you want to retrieve, which makes our API stand out from others.
