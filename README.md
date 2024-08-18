@@ -5,6 +5,19 @@ You decide what images you want to retrieve, which makes our API stand out from 
 
 But that's not all! The API also supports sessions (based on user ID or IP address), helping to avoid repeated images.
 
+<div align="center">
+    <a href="https://www.npmjs.com/package/nekosia.js">
+        <img src="https://img.shields.io/npm/dm/nekosia.js" alt="npm downloads">
+    </a>
+    <a href="https://github.com/Nekosia-API/nekosia.js/issues">
+        <img src="https://img.shields.io/github/issues/Nekosia-API/nekosia.js" alt="Issues">
+    </a>
+    <a href="https://github.com/Nekosia-API/nekosia.js/commits/main">
+        <img src="https://img.shields.io/github/last-commit/Nekosia-API/nekosia.js" alt="Last commit">
+        <img src="https://img.shields.io/github/commit-activity/w/Nekosia-API/nekosia.js" alt="Commit activity">
+        <img src="https://img.shields.io/github/languages/code-size/Nekosia-API/nekosia.js" alt="Code size">
+    </a>
+</div>
 
 ## 🔍 Key Features of the API
 - **Wide range of categories:** Nekosia API offers [virtually every kind of anime graphic](https://nekosia.cat/documentation?page=api-endpoints#main-categories), not limited to neko images.
@@ -104,7 +117,7 @@ const { NekosiaVersion } = require('nekosia.js');
 
 ## ⭐ » Thanks
 If you find the API or this module useful, consider giving a star to the [repository](https://github.com/sefinek24/nekosia.js).
-If you have questions or issues, create a new [Issue](https://github.com/sefinek24/email-validator/issues/new) or join the [serwer Discord](https://discord.gg/pba76vJhcP).
+If you have questions or issues, create a new [Issue](https://github.com/Nekosia-API/nekosia.js/issues/new) or join the [serwer Discord](https://discord.gg/pba76vJhcP).
 
 
 ## 📑 » MIT License
