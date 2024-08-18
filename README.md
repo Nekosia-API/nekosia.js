@@ -11,7 +11,7 @@ But that's not all! The API also supports sessions (based on user ID or IP addre
 - **High image quality:** All images are carefully selected and checked for quality and appropriateness.
 - **Sessions:** The API supports sessions (based on ID or IP address), which helps avoid duplicate images.
 - **Dominant colors:** The API returns a palette of dominant colors for each image.
-- **Image compression:** The JSON responses include a link to a compressed image, which is significantly smaller in size than the original. This can be useful if you want fast image loading on client devices without sacrificing quality.
+- **Image compression:** JSON responses include a link to a compressed image that is much smaller than the original. This can be useful if you want images to load quickly on client devices without sacrificing quality.
 - **Security:** Nekosia API ensures that all provided content is free from NSFW material, making it one of the most trusted sources of anime-themed images.
 
 ...and that’s not all!
