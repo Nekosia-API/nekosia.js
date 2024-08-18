@@ -127,4 +127,4 @@ If you have questions or issues, create a new [Issue](https://github.com/Nekosia
 
 
 ## 📑 » MIT License
-Copyright 2023-2024 © by [Sefinek](https://sefine.net). All rights reserved.
+Copyright 2024 © by [Sefinek](https://sefine.net). All rights reserved.
