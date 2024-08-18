@@ -56,9 +56,9 @@ You can find the main image categories [here](https://nekosia.cat/documentation?
 The full list of tags is available [on the Booru site](https://nekosia.cat/booru/tags).
 
 
-## 🤔 Examples
+## 🤔 How to Use?
 
-### Simple
+### Simple Example
 ```js
 const { NekosiaAPI } = require('nekosia.js');
 
