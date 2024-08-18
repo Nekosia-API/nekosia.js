@@ -35,7 +35,7 @@ But that's not all! The API also supports sessions (based on user ID or IP addre
 
 
 ## 📘 Custom Booru
-Nekosia also offers its own Booru, allowing you to browse images returned by the API.
+Nekosia also offers its own [Booru](https://nekosia.cat/booru), allowing you to browse images returned by the API.
 Users can edit image information, such as tags, which are crucial for us.
 
 
