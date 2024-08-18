@@ -19,6 +19,7 @@ But that's not all! The API also supports sessions (based on user ID or IP addre
     </a>
 </div>
 
+
 ## 🔍 Key Features of the API
 - **Wide range of categories:** Nekosia API offers [virtually every kind of anime graphic](https://nekosia.cat/documentation?page=api-endpoints#main-categories), not limited to neko images.
 - **High image quality:** All images are carefully selected and checked for quality and appropriateness.
