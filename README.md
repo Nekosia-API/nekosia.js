@@ -59,8 +59,6 @@ The full list of tags is available [on the Booru site](https://nekosia.cat/booru
 ## 🤔 Examples
 
 ### Simple
-It's really not difficult...
-
 ```js
 const { NekosiaAPI } = require('nekosia.js');
 
