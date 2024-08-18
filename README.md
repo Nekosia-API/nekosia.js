@@ -8,7 +8,7 @@ You decide what images you want to retrieve, which makes our API stand out from 
 
 But that's not all! The API also supports sessions (based on user ID or IP address), helping to avoid repeated images.
 
-<div align="center" style="text-decoration:none">
+<div align="center">
     <a href="https://www.npmjs.com/package/nekosia.js">
         <img src="https://img.shields.io/npm/dm/nekosia.js" alt="npm downloads">
     </a>
