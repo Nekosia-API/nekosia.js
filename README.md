@@ -106,6 +106,10 @@ const { NekosiaAPI } = require('nekosia.js');
 })();
 ```
 
+### See more
+https://github.com/Nekosia-API/nekosia.js/tree/main/examples
+
+
 ## Versions
 ```js
 const { NekosiaVersion } = require('nekosia.js');
