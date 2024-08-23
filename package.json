@@ -1,6 +1,6 @@
 {
   "name": "nekosia.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simple wrapper for the Nekosia API that provides easy access to random anime images. Enhance your projects with the magic of anime and a touch of feline charm meow~~! Discover why switching to Nekosia is the purrfect choice!",
   "keywords": [
     "anime",
@@ -15,7 +15,6 @@
     "cat-ears",
     "catgirl",
     "catgirls",
-    "chibi",
     "cute-animals",
     "feline",
     "image-api",
