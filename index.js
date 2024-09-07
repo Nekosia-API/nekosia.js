@@ -18,7 +18,7 @@ class NekosiaAPI {
 
 	async makeHttpRequest(endpoint) {
 		try {
-			return await https.get(endpoint);
+			return https.get(endpoint);
 		} catch (err) {
 			console.error(`HTTP request failed for endpoint ${endpoint}: ${err.message}`);
 			throw err;
