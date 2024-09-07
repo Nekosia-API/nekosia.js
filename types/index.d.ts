@@ -12,9 +12,9 @@ declare module 'nekosia.js' {
          * Session type:
          * - `id` - Session identified by the `id` value (requires the `id` field to be set).
          * - `ip` - Session identified by the user's IP address.
-         * @default null
+         * @default undefined
          */
-        session?: null | 'id' | 'ip';
+        session?: undefined | 'id' | 'ip';
 
         /**
          * Identifier of the fetched image.
