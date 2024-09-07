@@ -14,22 +14,19 @@ declare module 'nekosia.js' {
          * - `ip` - Session identified by the user's IP address.
          * @default undefined
          */
-        session?: undefined | 'id' | 'ip';
+        session?: 'id' | 'ip';
 
         /**
          * Identifier of the fetched image.
          * @example 66ae26a07886f165901e8a3f
-         * @default null
          */
-        id?: null | string;
+        id?: string;
 
         /**
          * The number of images to fetch. WARNING! The higher the number, the more data the server will need to process, which will result in a longer response time.
          *
-         * Minimum: 1
-         *
-         * Maximum: 48
-         *
+         * - Minimum - 1
+         * - Maximum - 48
          * @default 1
          */
         count?: number;
@@ -49,6 +46,21 @@ declare module 'nekosia.js' {
          * @default []
          */
         blacklistedTags?: AllTagsList | AllTagsList[];
+
+        /**
+         * Defines the content rating of an image.
+         * The rating indicates the appropriateness of the content, specifying whether the image is suitable for all audiences or contains content that may be sensitive or inappropriate for certain viewers.
+         *
+         * Possible values:
+         * - `safe`: Suitable for all audiences, contains no explicit or questionable content.
+         * - `questionable`: Contains content that may be sensitive or inappropriate for younger audiences, but not explicit.
+         * - `nsfw`: Contains explicit content, not safe for work (NSFW).
+         *
+         * The default value is ALWAYS `safe`.
+         * @example safe
+         * @default safe
+         */
+        rating?: 'safe' | 'questionable' | 'nsfw';
     }
 
     /**
