@@ -227,10 +227,7 @@ declare module 'nekosia.js' {
         /**
          * Metadata about the original and compressed images.
          */
-        metadata: {
-            original: ImageMetadata;
-            compressed: ImageMetadata;
-        };
+        metadata: { original: ImageMetadata; compressed: ImageMetadata; };
 
         /**
          * Category to which the image belongs.
@@ -361,7 +358,7 @@ declare module 'nekosia.js' {
     export const NekosiaVersion: {
         /**
          * Get the current version of the module.
-         * @example "1.1.0"
+         * @example 1.1.0
          * @returns String with the module version.
          */
         module: string;
