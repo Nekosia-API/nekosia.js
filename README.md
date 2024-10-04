@@ -3,10 +3,10 @@
 </div>
 
 Nekosia.js is a Node.js module that provides easy access to the Nekosia API, a rich source of anime-themed images.
-The API offers a wide range of categories, allowing you to quickly and flexibly search for images according to your preferences and needs.
-You decide what images you want to retrieve, which makes our API stand out from others.
+The API offers a wide range of categories, allowing you to quickly and flexibly search for images based on your preferences and needs.
+You have full control over the images you retrieve, which sets our API apart from others.
 
-But that's not all! The API also supports sessions (based on user ID or IP address), helping to avoid repeated images.
+But that's not all! The API also supports sessions (based on user ID or IP address), helping to prevent repeated images.
 
 <div align="center">
     <a href="https://www.npmjs.com/package/nekosia.js">
@@ -24,18 +24,18 @@ But that's not all! The API also supports sessions (based on user ID or IP addre
 
 
 ## 🔍 Key Features of the API
-- **Wide range of categories:** Nekosia API offers [virtually every kind of anime graphic](https://nekosia.cat/documentation?page=api-endpoints#main-categories), not limited to neko images.
-- **High image quality:** All images are carefully selected and checked for quality and appropriateness.
-- **Sessions:** The API supports sessions (based on ID or IP address), which helps avoid duplicate images.
+- **Wide range of categories:** Nekosia API offers [virtually every kind of anime graphic](https://nekosia.cat/documentation?page=api-endpoints#main-categories), not just neko images.
+- **High image quality:** All images are carefully selected and checked for both quality and appropriateness.
+- **Sessions:** The API supports sessions (based on ID or IP address), helping to avoid duplicate images.
 - **Dominant colors:** The API returns a palette of dominant colors for each image.
-- **Image compression:** JSON responses include a link to a compressed image that is much smaller than the original. This can be useful if you want images to load quickly on client devices without sacrificing quality.
-- **Security:** Nekosia API ensures that all provided content is free from NSFW material, making it one of the most trusted sources of anime-themed images.
+- **Image compression:** JSON responses include a link to a compressed image with a significantly reduced file size compared to the original. This ensures faster load times on client devices without sacrificing quality.
+- **Security:** Nekosia API guarantees that all content is free from NSFW material, making it one of the most trusted sources for anime-themed images.
 
 ...and that’s not all!
 
 
 ## 📘 Best Anime Booru
-Nekosia also offers its own [Booru](https://nekosia.cat/booru), allowing you to browse images returned by the API.
+Nekosia also offers its own [Booru](https://nekosia.cat/booru), allowing you to browse images returned by the API.  
 Users can edit image information, such as tags, which are crucial for us.
 
 
@@ -52,7 +52,7 @@ npm install neksosia.js
 
 
 ## 🔤 Tag list
-You can find the main image categories [here](https://nekosia.cat/documentation?page=api-endpoints#tags-and-categories).
+You can find the main image categories [here](https://nekosia.cat/documentation?page=api-endpoints#tags-and-categories).  
 The full list of tags is available [on the Booru site](https://nekosia.cat/booru/tags).
 
 
@@ -70,7 +70,7 @@ const { NekosiaAPI } = require('nekosia.js');
 
 
 ### IP-based Sessions
-In this example, we used an IP-based session. What does this mean? Thanks to this solution, a user with a specific IP address will not encounter duplicates when randomly selecting images.
+In this example, we used an IP-based session. What does this mean? Thanks to this solution, a user with a specific IP address will not encounter duplicate images when selecting them randomly.
 
 ```js
 const { NekosiaAPI } = require('nekosia.js');
@@ -88,7 +88,7 @@ const { NekosiaAPI } = require('nekosia.js');
 ```
 
 ### ID-based Sessions
-You can also use `id`, but this will require providing a user identifier (e.g., from Discord). Pass this information in `id` as a string.
+You can also use `id`, but this requires providing a user identifier (e.g., from Discord). Pass this information in `id` as a string.
 
 ```js
 const { NekosiaAPI } = require('nekosia.js');
@@ -122,8 +122,8 @@ const { NekosiaVersion } = require('nekosia.js');
 
 
 ## ⭐ » Thanks
-If you find the API or this module useful, consider giving a star to the [repository](https://github.com/sefinek24/nekosia.js).
-If you have questions or issues, create a new [Issue](https://github.com/Nekosia-API/nekosia.js/issues/new) or join the [Discord server](https://discord.gg/pba76vJhcP).
+If you find the API or this module useful, consider giving a star to the [repository](https://github.com/sefinek24/nekosia.js).  
+If you have any questions or issues, create a new [Issue](https://github.com/Nekosia-API/nekosia.js/issues/new) or join the [Discord server](https://discord.gg/pba76vJhcP).
 
 
 ## 📑 » MIT License
