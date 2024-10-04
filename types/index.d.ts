@@ -10,38 +10,43 @@ declare module 'nekosia.js' {
     interface FetchImagesOptions {
         /**
          * Session type:
-         * - `id` - Session identified by the `id` value (requires the `id` field to be set).
+         * - `id` - Session identified by its `id` value (requires the `id` field to be set).
          * - `ip` - Session identified by the user's IP address.
+         * @type String
          * @default undefined
          */
         session?: 'id' | 'ip';
 
         /**
          * Identifier of the fetched image.
-         * @example 66ae26a07886f165901e8a3f
+         * @type String
+         * @example "66ae26a07886f165901e8a3f"
          */
         id?: string;
 
         /**
-         * The number of images to fetch. WARNING! The higher the number, the more data the server will need to process, which will result in a longer response time.
+         * The number of images to fetch. WARNING! The higher the number, the more data the server will need to process, leading to longer response times.
          *
          * - Minimum - 1
          * - Maximum - 48
+         * @type Number
          * @default 1
          */
         count?: number;
 
         /**
          * Additional tags to include in the image search.
-         * This can be a single string with one tag or an array of strings with multiple tags.
+         * This can be a single string representing one tag or an array of strings for multiple tags.
+         * @type Array
          * @example ["cute", "sakura", "cherry-blossom"]
          * @default []
          */
         additionalTags?: AllTagsList | AllTagsList[];
 
         /**
-         * Tags to exclude during the image search.
-         * This can be a single string with one tag or an array of strings with multiple tags.
+         * Tags to exclude from the image search.
+         * This can be a single string representing one tag or an array of strings for multiple tags.
+         * @type Array
          * @example ["beret", "hat", "short-hair"]
          * @default []
          */
@@ -53,10 +58,11 @@ declare module 'nekosia.js' {
          *
          * Possible values:
          * - `safe`: Suitable for all audiences, contains no explicit or questionable content.
-         * - `questionable`: Contains content that may be sensitive or inappropriate for younger audiences, but not explicit.
+         * - `questionable`: May contain content sensitive or inappropriate for younger audiences, but not explicit.
          * - `nsfw`: Contains explicit content, not safe for work (NSFW).
          *
          * The default value is ALWAYS `safe`.
+         * @type String
          * @example safe
          * @default safe
          */
@@ -68,14 +74,16 @@ declare module 'nekosia.js' {
      */
     interface ImageDetails {
         /**
-         * URL leading to the image.
+         * URL of the image.
+         * @type String
          * @example https://cdn.nekosia.cat/images/maid-uniform/66bc6b7481a59a1cf2c79db5.png
          */
         url: string;
 
         /**
          * Image file extension.
-         * @example `png` or `jpg`, etc.
+         * @type String
+         * @example `png`, `jpg`, etc.
          */
         extension: string;
     }
@@ -86,38 +94,44 @@ declare module 'nekosia.js' {
     interface ImageMetadata {
         /**
          * Image width in pixels.
+         * @type Number
          * @example 1447
          */
         width: number;
 
         /**
          * Image height in pixels.
+         * @type Number
          * @example 2046
          */
         height: number;
 
         /**
          * Image size in bytes.
+         * @type Number
          * @example 1001991
          */
         size: number;
 
         /**
          * Image file extension.
-         * @example jpeg
+         * @type String
+         * @example png
          */
         extension: string;
     }
 
     interface ImageColors {
         /**
-         * Main dominant color of the image in hexadecimal format.
+         * The main dominant color of the image in hexadecimal format.
+         * @type String
          * @example #00FF00
          */
         main: HexColor;
 
         /**
-         * Palette of the 14 most dominant colors in the image, presented in hexadecimal format.
+         * A palette of the 14 most dominant colors in the image, represented in hexadecimal format.
+         * @type Array
          * @example ["#9D78CD", "#454FC0", "#909AEB", "#F5E3F0", "#94498B", "#BEC1EE", "#CD7D67", "#CC98D5", "#E2AE9E", "#F0B4DB", "#2B1C3E", "#4E8DCB", "#F2DABF", "#5CB6C0"]
          */
         palette: HexColor[];
@@ -126,37 +140,43 @@ declare module 'nekosia.js' {
     interface ImageAnime {
         /**
          * The title of the anime from which the image originates. `null` if not applicable.
-         * @example Satsuriku no Tenshi
+         * @type String
+         * @example "Satsuriku no Tenshi"
          */
         title: string | null;
 
         /**
          * The name of the character depicted in the image. `null` if not applicable.
-         * @example Rachel Gardner
+         * @type String
+         * @example "Rachel Gardner"
          */
         character: string | null;
     }
 
     interface ImageSource {
         /**
-         * URL of the source page where the image originates. `null` if not applicable.
+         * The URL of the source page where the image originates. `null` if not applicable.
+         * @type String
          */
         url: string | null;
 
         /**
-         * Direct link to the image. `null` if not applicable.
+         * The direct link to the image. `null` if not applicable.
+         * @type String
          */
         direct: string | null;
     }
 
     interface ArtistDetails {
         /**
-         * Artist's username. `null` if not applicable.
+         * The artist's username. `null` if not applicable.
+         * @type String
          */
         username: string | null;
 
         /**
-         * Link to the artist's profile. `null` if not applicable.
+         * The link to the artist's profile. `null` if not applicable.
+         * @type String
          */
         profile: string | null;
     }
@@ -164,11 +184,13 @@ declare module 'nekosia.js' {
     interface ImageAttribution {
         /**
          * Information about the artist.
+         * @type Object
          */
         artist: ArtistDetails;
 
         /**
-         * Copyright of the artwork. `null` if not applicable.
+         * The copyright of the artwork. `null` if not applicable.
+         * @type String
          */
         copyright: string | null;
     }
@@ -179,99 +201,114 @@ declare module 'nekosia.js' {
     interface ImageResponse {
         /**
          * Indicates whether the operation was successful.
+         * @type Boolean
          * @example true
          */
         success: boolean;
 
         /**
          * HTTP status code of the response.
+         * @type Number
          * @example 200
          */
         status: number;
 
         /**
          * Session key, if applicable, otherwise `null`.
+         * @type String
          */
         key: string | null;
 
         /**
          * Number of images included in the response.
+         * @type Number
          */
         count: number;
 
         /**
-         * Image identifier.
+         * Unique identifier for the image.
+         * @type String
          */
         id: string;
 
         /**
-         * Structure containing the dominant colors of the fetched image.
+         * Object containing the dominant colors of the fetched image.
+         * @type Object
          */
         colors: ImageColors;
 
         /**
-         * Structure containing details about the original and compressed images.
+         * Object containing details about both the original and compressed images.
          */
         image: {
             /**
-             * Original uncompressed image. The file includes EXIF data to acknowledge the artist's work.
+             * The original uncompressed image. Includes EXIF data to credit the artist.
+             * @type Object
              */
             original: ImageDetails;
 
             /**
-             * Compressed image with a smaller size, without quality loss. The file includes EXIF data to acknowledge the artist's work.
+             * The compressed version of the image, reduced in size without quality loss. Includes EXIF data to credit the artist.
+             * @type Object
              */
             compressed: ImageDetails;
         };
 
         /**
-         * Metadata about the original and compressed images.
+         * Metadata for both the original and compressed images.
+         * @type Object
          */
-        metadata: { original: ImageMetadata; compressed: ImageMetadata; };
+        metadata: { original: ImageMetadata; compressed: ImageMetadata };
 
         /**
-         * Category to which the image belongs.
-         * @example catgirl
+         * The category the image belongs to.
+         * @type String
+         * @example "catgirl"
          */
         category: string;
 
         /**
-         * Tags assigned to the image.
+         * Tags associated with the image.
+         * @type Array
          */
         tags: string[];
 
         /**
          * Content rating of the image.
          *
-         * `safe` - Image safe to display in any situation.
+         * `safe` - Image safe for all audiences.
          *
-         * `questionable` - Image may contain content inappropriate for some viewers.
+         * `questionable` - Image may contain content unsuitable for some viewers.
          *
-         * `nsfw` - Image contains content intended for adults only (Not Safe For Work).
+         * `nsfw` - Image contains adult content (Not Safe For Work).
          *
+         * @type String
          * @output 'safe' | 'questionable' | 'nsfw'
          */
         rating: 'safe' | 'questionable' | 'nsfw';
 
         /**
-         * Information about the anime (not necessarily an anime) to which the image may belong.
+         * Information about the anime (or related media) the image may be associated with.
+         * @type Object
          */
         anime: ImageAnime;
 
         /**
-         * Information about the source of the image.
+         * Details about the source of the image.
+         * @type Object
          */
         source: ImageSource;
 
         /**
-         * Structure containing information about the artist and associated copyright of the image.
+         * Information about the artist and the associated copyright of the image.
+         * @type Object
          */
         attribution: ImageAttribution;
     }
 
     /**
      * Nekosia API class, containing methods for fetching images.
-     * All methods are asynchronous and return a Promise with an `ImageResponse`.
+     * All methods are asynchronous and return a Promise resolving to an `ImageResponse`.
      */
     export class NekosiaAPI {
         /**
@@ -285,7 +322,8 @@ declare module 'nekosia.js' {
          *      additionalTags: ['cute', 'sakura', 'cherry-blossom'],
          *      blacklistedTags: ['beret']
          * });
-         * @returns Promise with an `ImageResponse`.
+         * @type Object
+         * @returns A Promise resolving to an `ImageResponse`.
          */
         fetchImages(category: AllTagsList, options?: FetchImagesOptions): Promise<ImageResponse>;
 
@@ -299,54 +337,62 @@ declare module 'nekosia.js' {
          *      additionalTags: ['catgirl', 'foxgirl'],
          *      blacklistedTags: ['dog-girl']
          * });
-         * @returns Promise with an `ImageResponse`.
+         * @type Object
+         * @returns A Promise resolving to an `ImageResponse`.
          */
         fetchShadowImages(options?: FetchImagesOptions): Promise<ImageResponse>;
 
         /**
          * Fetches an image by its identifier.
          * @param id - The image identifier (e.g., `66ae26a07886f165901e8a3f`).
-         * @returns Promise with an `ImageResponse`.
+         * @type Object
+         * @returns A Promise resolving to an `ImageResponse`.
          */
         fetchById(id: string): Promise<ImageResponse>;
     }
 
     /**
-     * JSON object response from the API regarding the current version of the API and related information.
+     * JSON object response from the API containing information about the current version and related details.
      */
     interface APIVersion {
         /**
          * HTTP status code of the response.
+         * @type Number
          * @example 200
          */
         status: number;
 
         /**
          * Indicates whether the request was successful.
+         * @type Boolean
          * @example true
          */
         success: boolean;
 
         /**
          * The current version of the API.
-         * @example 1.0.0
+         * @type String
+         * @example "1.0.0"
          */
         version: string;
 
         /**
          * URL to the API documentation.
-         * @example https://nekosia.cat/documentation
+         * @type String
+         * @example "https://nekosia.cat/documentation"
          */
         documentation: string;
 
         /**
-         * Contact email.
-         * @example contact@nekosia.cat
+         * Contact email for inquiries.
+         * @type String
+         * @example "contact@nekosia.cat"
          */
         contact: string;
 
         /**
-         * List of available API numbers.
+         * List of available API versions.
+         * @type Array
          * @example [1]
          */
         apis: number[];
@@ -357,15 +403,17 @@ declare module 'nekosia.js' {
      */
     export const NekosiaVersion: {
         /**
-         * Get the current version of the module.
-         * @example 1.1.0
-         * @returns String with the module version.
+         * Retrieves the current version of the module.
+         * @example "1.1.0"
+         * @type String
+         * @returns A string representing the module version.
          */
         module: string;
 
         /**
-         * Get the current API version and related information.
-         * @returns Promise that resolves to an `APIVersion` object.
+         * Fetches the current API version and related information.
+         * @type Object
+         * @returns A Promise that resolves to an `APIVersion` object.
          */
         api(): Promise<APIVersion>;
     };
