@@ -325,7 +325,7 @@ declare module 'nekosia.js' {
          * @type Object
          * @returns A Promise resolving to an `ImageResponse`.
          */
-        fetchImages(category: AllTagsList, options?: FetchImagesOptions): Promise<ImageResponse>;
+        static fetchImages(category: AllTagsList, options?: FetchImagesOptions): Promise<ImageResponse>;
 
         /**
          * Fetches images based solely on the tags provided by the user. The main category does not affect the image selection as it is not provided here.
@@ -340,7 +340,7 @@ declare module 'nekosia.js' {
          * @type Object
          * @returns A Promise resolving to an `ImageResponse`.
          */
-        fetchShadowImages(options?: FetchImagesOptions): Promise<ImageResponse>;
+        static fetchShadowImages(options?: FetchImagesOptions): Promise<ImageResponse>;
 
         /**
          * Fetches an image by its identifier.
@@ -348,7 +348,7 @@ declare module 'nekosia.js' {
          * @type Object
          * @returns A Promise resolving to an `ImageResponse`.
          */
-        fetchById(id: string): Promise<ImageResponse>;
+        static fetchById(id: string): Promise<ImageResponse>;
     }
 
     /**
