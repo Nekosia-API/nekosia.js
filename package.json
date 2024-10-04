@@ -47,7 +47,7 @@
     "type": "git",
     "url": "git+https://github.com/Nekosia-API/nekosia.js.git"
   },
-  "license": "ISC",
+  "license": "MIT",
   "author": "Sefinek <contact@sefinek.net> (https://sefinek.net)",
   "main": "index.js",
   "typings": "types/index.d.ts",
