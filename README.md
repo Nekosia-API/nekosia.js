@@ -52,7 +52,7 @@ npm install neksosia.js
 
 
 ## 🔤 Tag list
-You can find the main image categories [here](https://nekosia.cat/documentation?page=api-endpoints#tags-and-categories).  
+You can find the main image categories [here](https://nekosia.cat/documentation?page=api-endpoints#tags-and-categories).
 The full list of tags is available [on the Booru site](https://nekosia.cat/booru/tags).
 
 
