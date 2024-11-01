@@ -122,7 +122,7 @@ const { NekosiaVersion } = require('nekosia.js');
 
 
 ## ⭐ » Thanks
-If you find the API or this module useful, consider giving a star to the [repository](https://github.com/sefinek24/nekosia.js).  
+If you find the API or this module useful, consider giving a star to the [repository](https://github.com/Nekosia-API/nekosia.js).  
 If you have any questions or issues, create a new [Issue](https://github.com/Nekosia-API/nekosia.js/issues/new) or join the [Discord server](https://discord.gg/pba76vJhcP).
 
 
