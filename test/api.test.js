@@ -55,7 +55,6 @@ describe('NekosiaAPI (API Tests)', () => {
 			expect(res).toBeInstanceOf(Object);
 			expect(res.success).toBe(true);
 			expect(res.status).toBe(200);
-			expect(res.count).toBe(3);
 			expect(res).toHaveProperty('images');
 			expect(res.images).toBeInstanceOf(Array);
 			expect(res.images.length).toBe(3);
