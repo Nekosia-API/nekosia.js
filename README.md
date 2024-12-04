@@ -47,7 +47,7 @@ Check out the [official documentation](https://nekosia.cat/documentation) to lea
 To install the Nekosia.js module, use the following command:
 
 ```bash
-npm install neksosia.js
+npm install nekosia.js
 ```
 
 
