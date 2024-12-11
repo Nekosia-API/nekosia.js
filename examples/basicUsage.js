@@ -5,7 +5,7 @@ const { NekosiaAPI } = require('../index.js');
 		session: 'ip',
 		count: 1,
 		additionalTags: ['cute', 'sakura', 'cherry-blossom'],
-		blacklistedTags: ['beret']
+		blacklistedTags: ['beret'],
 	});
 
 	console.log(response);

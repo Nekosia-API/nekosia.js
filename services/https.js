@@ -7,7 +7,7 @@ const headers = {
 	'Content-Type': 'application/json',
 	'Cache-Control': 'no-cache',
 	'Connection': 'keep-alive',
-	'DNT': '1'
+	'DNT': '1',
 };
 
 const makeRequest = url => new Promise((resolve, reject) => {

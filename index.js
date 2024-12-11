@@ -44,7 +44,7 @@ class NekosiaAPI {
 			count: 1,
 			additionalTags: [],
 			blacklistedTags: [],
-			...options
+			...options,
 		});
 
 		return this.makeHttpRequest(`${API_URL}/images/${category}?${queryString}`);
@@ -69,10 +69,10 @@ const NekosiaVersion = {
 	module: https.version,
 	api: async () => {
 		return await https.get(BASE_URL);
-	}
+	},
 };
 
 module.exports = {
 	NekosiaAPI: new NekosiaAPI(),
-	NekosiaVersion
+	NekosiaVersion,
 };
