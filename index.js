@@ -25,9 +25,9 @@ class NekosiaAPI {
 		}
 	}
 
-	async fetchImages(category, options = {}) {
+	async fetchCategoryImages(category, options = {}) {
 		if (!category) {
-			throw new Error('The image category is required. For example, use fetchImages(\'catgirl\').');
+			throw new Error('The image category is required. For example, use fetchCategoryImages(\'catgirl\').');
 		}
 
 		if (options.session && !['id', 'ip'].includes(options.session)) {
@@ -38,24 +38,21 @@ class NekosiaAPI {
 			throw new Error('`id` is not required if the session is `null` or `undefined`');
 		}
 
-		const queryString = this.buildQueryParams({
-			session: null,
-			id: null,
-			count: 1,
-			additionalTags: [],
-			blacklistedTags: [],
-			...options,
-		});
-
-		return this.makeHttpRequest(`${API_URL}/images/${category}?${queryString}`);
+		return this.makeHttpRequest(`${API_URL}/images/${category}?${this.buildQueryParams(options)}`);
 	}
 
-	async fetchShadowImages(options = {}) {
-		if (!Array.isArray(options.additionalTags) || options.additionalTags.length === 0) {
-			throw new Error('`additionalTags` must be a non-empty array for the shadow category');
+	async fetchImages(options = {}) {
+		if (!Array.isArray(options.tags) || options.tags.length === 0) {
+			throw new Error('`tags` must be a non-empty array for the nothing category');
 		}
 
-		return this.fetchImages('shadow', options);
+		return this.fetchCategoryImages('nothing', {
+			session: options.session,
+			id: options.id,
+			count: options.count,
+			additionalTags: options.tags,
+			blacklistedTags: options.blacklist,
+		});
 	}
 
 	async fetchById(id) {
@@ -67,9 +64,7 @@ class NekosiaAPI {
 
 const NekosiaVersion = {
 	module: https.version,
-	api: async () => {
-		return await https.get(BASE_URL);
-	},
+	api: async () => https.get(BASE_URL),
 };
 
 module.exports = {

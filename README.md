@@ -63,8 +63,13 @@ The full list of tags is available [on the Booru site](https://nekosia.cat/booru
 const { NekosiaAPI } = require('nekosia.js');
 
 (async () => {
-	const response = await NekosiaAPI.fetchImages('catgirl');
-	console.log(response); // Sample response: https://nekosia.cat/documentation?page=api-endpoints#example-response
+	const response1 = await NekosiaAPI.fetchCategoryImages('catgirl');
+	console.log(response1);
+	
+	const response2 = await NekosiaAPI.fetchImages({ session: 'ip', count: 1, tags: ['cute', 'blue-hair'], blacklist: ['yellow-hair'] });
+	console.log(response2);
+	
+	// https://nekosia.cat/documentation?page=api-endpoints#example-response
 })();
 ```
 
@@ -76,7 +81,7 @@ In this example, we used an IP-based session. What does this mean? Thanks to thi
 const { NekosiaAPI } = require('nekosia.js');
 
 (async () => {
-	const response = await NekosiaAPI.fetchImages('catgirl', {
+	const response = await NekosiaAPI.fetchCategoryImages('catgirl', {
 		session: 'ip',
 		count: 1,
 		additionalTags: [],
@@ -94,7 +99,7 @@ You can also use `id`, but this requires providing a user identifier (e.g., from
 const { NekosiaAPI } = require('nekosia.js');
 
 (async () => {
-	const response = await NekosiaAPI.fetchImages('catgirl', {
+	const response = await NekosiaAPI.fetchCategoryImages('catgirl', {
 		session: 'id',
 		id: '561621386765971781',
 		count: 1,

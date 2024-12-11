@@ -5,9 +5,9 @@ declare module 'nekosia.js' {
     type AllTagsList = typeof TAGS[number];
 
     /**
-     * Configuration options for the `fetchImages` function.
+     * Configuration options for the `fetchCategoryImages` function.
      */
-    interface FetchImagesOptions {
+    interface FetchImagesCategoryOptions {
         /**
          * Session type:
          * - `id` - Session identified by its `id` value (requires the `id` field to be set).
@@ -51,6 +51,71 @@ declare module 'nekosia.js' {
          * @default []
          */
         blacklistedTags?: AllTagsList | AllTagsList[];
+
+        /**
+         * Defines the content rating of an image.
+         * The rating indicates the appropriateness of the content, specifying whether the image is suitable for all audiences or contains content that may be sensitive or inappropriate for certain viewers.
+         *
+         * Possible values:
+         * - `safe`: Suitable for all audiences, contains no explicit or questionable content.
+         * - `questionable`: May contain content sensitive or inappropriate for younger audiences, but not explicit.
+         * - `nsfw`: Contains explicit content, not safe for work (NSFW).
+         *
+         * The default value is ALWAYS `safe`.
+         * @type String
+         * @example safe
+         * @default safe
+         */
+        rating?: 'safe' | 'questionable' | 'nsfw';
+    }
+
+    /**
+     * Configuration options for the `fetchImages` function.
+     */
+    interface FetchImagesOptions {
+        /**
+         * Session type:
+         * - `id` - Session identified by its `id` value (requires the `id` field to be set).
+         * - `ip` - Session identified by the user's IP address.
+         * @type String
+         * @default undefined
+         */
+        session?: 'id' | 'ip';
+
+        /**
+         * Identifier of the fetched image.
+         * @type String
+         * @example "66ae26a07886f165901e8a3f"
+         */
+        id?: string;
+
+        /**
+         * The number of images to fetch. WARNING! The higher the number, the more data the server will need to process, leading to longer response times.
+         *
+         * - Minimum - 1
+         * - Maximum - 48
+         * @type Number
+         * @default 1
+         */
+        count?: number;
+
+        /**
+         * Additional tags to include in the image search.
+         * This can be a single string representing one tag or an array of strings for multiple tags.
+         * @type Array
+         * @example ["cute", "sakura", "cherry-blossom"]
+         * @default []
+         */
+        tags?: AllTagsList | AllTagsList[];
+
+        /**
+         * Tags to exclude from the image search.
+         * This can be a single string representing one tag or an array of strings for multiple tags.
+         * @type Array
+         * @example ["beret", "hat", "short-hair"]
+         * @default []
+         */
+        blacklist?: AllTagsList | AllTagsList[];
 
         /**
          * Defines the content rating of an image.
@@ -317,7 +382,7 @@ declare module 'nekosia.js' {
          * @param options - Configuration options for the request (optional).
          * @example
          * const { NekosiaAPI } = require('nekosia.js');
-         * await NekosiaAPI.fetchImages('catgirl', {
+         * await NekosiaAPI.fetchCategoryImages('catgirl', {
          *      count: 1,
          *      additionalTags: ['cute', 'sakura', 'cherry-blossom'],
          *      blacklistedTags: ['beret']
@@ -325,22 +390,22 @@ declare module 'nekosia.js' {
          * @type Object
          * @returns A Promise resolving to an `ImageResponse`.
          */
-        static fetchImages(category: AllTagsList, options?: FetchImagesOptions): Promise<ImageResponse>;
+        static fetchCategoryImages(category: AllTagsList, options?: FetchImagesCategoryOptions): Promise<ImageResponse>;
 
         /**
          * Fetches images based solely on the tags provided by the user. The main category does not affect the image selection as it is not provided here.
          * @param options - Configuration options for the request (optional).
          * @example
          * const { NekosiaAPI } = require('nekosia.js');
-         * await NekosiaAPI.fetchShadowImages({
+         * await NekosiaAPI.fetchImages({
          *      count: 1,
-         *      additionalTags: ['catgirl', 'foxgirl'],
-         *      blacklistedTags: ['dog-girl']
+         *      tags: ['catgirl', 'foxgirl'],
+         *      blacklist: ['dog-girl']
          * });
          * @type Object
          * @returns A Promise resolving to an `ImageResponse`.
          */
-        static fetchShadowImages(options?: FetchImagesOptions): Promise<ImageResponse>;
+        static fetchImages(options?: FetchImagesOptions): Promise<ImageResponse>;
 
         /**
          * Fetches an image by its identifier.

@@ -43,30 +43,30 @@ describe('NekosiaAPI', () => {
 		});
 	});
 
-	describe('fetchImages', () => {
+	describe('fetchCategoryImages', () => {
 		it('should build correct endpoint and make request for given category', async () => {
 			const mockResponse = { data: { results: [] } };
 			https.get.mockResolvedValue(mockResponse);
 
 			const expectedEndpoint = 'https://api.nekosia.cat/api/v1/images/catgirl?count=2&additionalTags=cute';
-			const res = await NekosiaAPI.fetchImages('catgirl', { count: 2, additionalTags: 'cute' });
+			const res = await NekosiaAPI.fetchCategoryImages('catgirl', { count: 2, additionalTags: 'cute' });
 
 			expect(res).toEqual(mockResponse);
 			expect(https.get).toHaveBeenCalledWith(expectedEndpoint);
 		});
 	});
 
-	describe('fetchShadowImages', () => {
+	describe('fetchImages', () => {
 		it('should throw an error if additionalTags is empty', async () => {
-			await expect(NekosiaAPI.fetchShadowImages({})).rejects.toThrow('`additionalTags` must be a non-empty array for the shadow category');
+			await expect(NekosiaAPI.fetchImages({})).rejects.toThrow('`tags` must be a non-empty array for the nothing category');
 		});
 
 		it('should correctly call fetchImages with additionalTags', async () => {
 			const mockResponse = { data: { results: [] } };
 			https.get.mockResolvedValue(mockResponse);
 
-			const expectedEndpoint = 'https://api.nekosia.cat/api/v1/images/shadow?count=1&additionalTags=dark,shadow';
-			const res = await NekosiaAPI.fetchShadowImages({ count: 1, additionalTags: ['dark', 'shadow'] });
+			const expectedEndpoint = 'https://api.nekosia.cat/api/v1/images/nothing?count=1&additionalTags=dark,shadow';
+			const res = await NekosiaAPI.fetchImages({ count: 1, tags: ['dark', 'shadow'] });
 
 			expect(res).toEqual(mockResponse);
 			expect(https.get).toHaveBeenCalledWith(expectedEndpoint);
