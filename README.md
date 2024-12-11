@@ -73,7 +73,6 @@ const { NekosiaAPI } = require('nekosia.js');
 })();
 ```
 
-
 ### IP-based Sessions
 In this example, we used an IP-based session. What does this mean? Thanks to this solution, a user with a specific IP address will not encounter duplicate images when selecting them randomly.
 
@@ -113,6 +112,16 @@ const { NekosiaAPI } = require('nekosia.js');
 
 ### See more
 https://github.com/Nekosia-API/nekosia.js/tree/main/examples
+
+
+## Tags
+```js
+const { NekosiaAPI } = require('nekosia.js');
+
+(async () => {
+	console.log(await NekosiaAPI.fetchTags()); // Simply returns all available tags, etc.
+})();
+``` 
 
 
 ## Versions

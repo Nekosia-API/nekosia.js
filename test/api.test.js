@@ -70,7 +70,7 @@ describe('NekosiaAPI (API Tests)', () => {
 		});
 
 		it('should throw an error if additionalTagsArray is empty', async () => {
-			await expect(NekosiaAPI.fetchImages([])).rejects.toThrow('`tags` must be a non-empty array for the nothing category');
+			await expect(NekosiaAPI.fetchImages([])).rejects.toThrow('`tags` must be a non-empty array');
 		});
 
 		it('should return an error response for invalid count parameter', async () => {

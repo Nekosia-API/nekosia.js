@@ -43,7 +43,11 @@ class NekosiaAPI {
 
 	async fetchImages(options = {}) {
 		if (!Array.isArray(options.tags) || options.tags.length === 0) {
-			throw new Error('`tags` must be a non-empty array for the nothing category');
+			throw new Error('`tags` must be a non-empty array');
+		}
+
+		if (Array.isArray(options.blacklistedTags)) {
+			throw new Error('Unexpected `blacklistedTags` in `fetchImages()`, use `blacklist` instead');
 		}
 
 		return this.fetchCategoryImages('nothing', {
@@ -53,6 +57,10 @@ class NekosiaAPI {
 			additionalTags: options.tags,
 			blacklistedTags: options.blacklist,
 		});
+	}
+
+	async fetchTags() {
+		return this.makeHttpRequest(`${API_URL}/tags`);
 	}
 
 	async fetchById(id) {

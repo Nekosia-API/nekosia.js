@@ -372,6 +372,17 @@ declare module 'nekosia.js' {
     }
 
     /**
+     * GET https://api.nekosia.cat/api/v1/tags
+     */
+    interface TagsResponse {
+        status: number,
+        success: boolean,
+        tags: string[],
+        anime: string[],
+        characters: string[]
+    }
+
+    /**
      * Nekosia API class, containing methods for fetching images.
      * All methods are asynchronous and return a Promise resolving to an `ImageResponse`.
      */
@@ -406,6 +417,12 @@ declare module 'nekosia.js' {
          * @returns A Promise resolving to an `ImageResponse`.
          */
         static fetchImages(options?: FetchImagesOptions): Promise<ImageResponse>;
+
+        /**
+         * Fetches the latest array with tags, anime titles, and characters
+         * @returns A Promise resolving to an `ImageResponse`.
+         */
+        static fetchTags(id: string): Promise<TagsResponse>;
 
         /**
          * Fetches an image by its identifier.
