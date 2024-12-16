@@ -13,7 +13,7 @@ const headers = {
 const timeout = 25000;
 
 const get = async url => {
-	if (!url || typeof url !== 'string') throw new Error('Missing url.');
+	if (!url || typeof url !== 'string') throw new Error('Missing URL, expected a string');
 
 	return new Promise((resolve, reject) => {
 		const req = https.get(url, { headers, timeout }, res => {
