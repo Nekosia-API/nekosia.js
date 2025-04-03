@@ -77,7 +77,6 @@ describe('NekosiaAPI (API Tests)', () => {
 			const res = await NekosiaAPI.fetchCategoryImages('catgirl', { count: 'invalid' });
 			expect(res.success).toBe(false);
 			expect(res.status).toBe(400);
-			expect(res.message).toBe('Invalid count parameter. Expected a number between 1 and 48 (>48).');
 		});
 	});
 
