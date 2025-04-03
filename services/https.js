@@ -1,8 +1,8 @@
 const https = require('https');
-const { name, version, homepage, devDependencies } = require('../package.json');
+const { name, version, devDependencies } = require('../package.json');
 
 const headers = {
-	'User-Agent': `Mozilla/5.0 (compatible; ${name}/${version}; +${homepage})${process.env.JEST_WORKER_ID ? ` jest/${devDependencies.jest.replace(/^[^0-9]*/, '')}` : ''}`,
+	'User-Agent': `${name}/${version} (+https://github.com/Nekosia-API/nekosia.js)${process.env.JEST_WORKER_ID ? ` jest/${devDependencies.jest.replace(/^[^0-9]*/, '')}` : ''}`,
 	'Accept': 'application/json',
 	'Content-Type': 'application/json',
 	'Cache-Control': 'no-cache',
