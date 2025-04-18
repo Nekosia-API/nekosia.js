@@ -101,7 +101,7 @@ describe('NekosiaAPI (API Tests)', () => {
 			const res = await NekosiaAPI.fetchCategoryImages('12345');
 			expect(res.success).toBe(false);
 			expect(res.status).toBe(400);
-			expect(res.message).toBe('No images matching the specified criteria were found. See https://nekosia.cat/documentation?page=api-endpoints#tags-and-categories');
+			expect(res.message).toBe('No images matching the specified criteria were found. See https://nekosia.cat/documentation?page=api-endpoints#tags-and-categories for more details.');
 		});
 	});
 
