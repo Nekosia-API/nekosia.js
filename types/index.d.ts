@@ -28,7 +28,7 @@ declare module 'nekosia.js' {
          * The number of images to fetch. WARNING! The higher the number, the more data the server will need to process, leading to longer response times.
          *
          * - Minimum - 1
-         * - Maximum - 48
+         * - Maximum - 24
          * @type Number
          * @default 1
          */
@@ -38,7 +38,7 @@ declare module 'nekosia.js' {
          * Additional tags to include in the image search.
          * This can be a single string representing one tag or an array of strings for multiple tags.
          * @type Array
-         * @example ["cute", "sakura", "cherry-blossom"]
+         * @example ["cute", "sakura", "blue-eyes"]
          * @default []
          */
         additionalTags?: AllTagsList | AllTagsList[];
@@ -66,7 +66,7 @@ declare module 'nekosia.js' {
          * @example safe
          * @default safe
          */
-        rating?: 'safe' | 'questionable' | 'nsfw';
+        rating?: 'safe' | 'suggestive';
     }
 
     /**
@@ -401,7 +401,7 @@ declare module 'nekosia.js' {
          * @type Object
          * @returns A Promise resolving to an `ImageResponse`.
          */
-        static fetchCategoryImages(category: AllTagsList, options?: FetchImagesCategoryOptions): Promise<ImageResponse>;
+        static fetchCategoryImages(category: AllTagsList | 'random', options?: FetchImagesCategoryOptions): Promise<ImageResponse>;
 
         /**
          * Fetches images based solely on the tags provided by the user. The main category does not affect the image selection as it is not provided here.
