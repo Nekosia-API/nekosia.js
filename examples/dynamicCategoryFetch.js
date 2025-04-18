@@ -1,6 +1,6 @@
 const { NekosiaAPI } = require('../index.js');
 
-const fetchImages = async (category, options = {}) => {
+const fetch = async (category, options = {}) => {
 	try {
 		const response = await NekosiaAPI.fetchCategoryImages(category, options);
 		console.log(`${category.toUpperCase()}:`, response);
@@ -10,7 +10,7 @@ const fetchImages = async (category, options = {}) => {
 };
 
 (async () => {
-	await fetchImages('catgirl');
-	await fetchImages('foxgirl', { session: 'id', id: 'user123', count: 2 });
-	await fetchImages('catgirl', { tags: 'animal-ears' });
+	await fetch('catgirl');
+	await fetch('foxgirl', { session: 'id', id: 'user123', count: 2 });
+	await fetch('catgirl', { tags: 'animal-ears' });
 })();
