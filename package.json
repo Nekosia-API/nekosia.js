@@ -1,7 +1,7 @@
 {
   "name": "nekosia.js",
-  "version": "0.2.0",
-  "description": "A simple wrapper for the Nekosia API that offers seamless access to random anime images. Add a touch of anime magic and feline charm to your projects, meow~~! Find out why Nekosia is the purrfect choice!",
+  "version": "0.2.1",
+  "description": "A simple wrapper for the Nekosia API that offers seamless access to random anime images. Add a touch of anime magic and feline charm to your projects, meow~! Find out why Nekosia is the purrfect choice!",
   "keywords": [
     "anime api",
     "anime art",

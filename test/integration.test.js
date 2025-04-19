@@ -14,6 +14,11 @@ describe('NekosiaAPI', () => {
 			const result = NekosiaAPI.buildQueryParams(options);
 			expect(result).toBe('count=3&additionalTags=tag1,tag2,tag3,tag4');
 		});
+
+		it('should return empty string for empty options', () => {
+			const result = NekosiaAPI.buildQueryParams({});
+			expect(result).toBe('');
+		});
 	});
 
 	describe('makeHttpRequest', () => {
@@ -54,11 +59,40 @@ describe('NekosiaAPI', () => {
 			expect(res).toEqual(mockResponse);
 			expect(https.get).toHaveBeenCalledWith(expectedEndpoint);
 		});
+
+		it('should build correct endpoint with no query params if options are empty', async () => {
+			const mockResponse = { data: { results: [] } };
+			https.get.mockResolvedValue(mockResponse);
+
+			const expectedEndpoint = 'https://api.nekosia.cat/api/v1/images/catgirl';
+			const res = await NekosiaAPI.fetchCategoryImages('catgirl');
+
+			expect(res).toEqual(mockResponse);
+			expect(https.get).toHaveBeenCalledWith(expectedEndpoint);
+		});
+
+		it('should include count=1 if explicitly set', async () => {
+			const mockResponse = { data: { results: [] } };
+			https.get.mockResolvedValue(mockResponse);
+
+			const expectedEndpoint = 'https://api.nekosia.cat/api/v1/images/catgirl?count=1';
+			const res = await NekosiaAPI.fetchCategoryImages('catgirl', { count: 1 });
+
+			expect(res).toEqual(mockResponse);
+			expect(https.get).toHaveBeenCalledWith(expectedEndpoint);
+		});
+
 	});
 
 	describe('fetchImages', () => {
-		it('should throw an error if additionalTags is empty', async () => {
+		it('should throw an error if tags is missing', async () => {
 			await expect(NekosiaAPI.fetchImages({})).rejects.toThrow('`tags` must be a non-empty array');
+		});
+
+		it('should throw an error if tags is not an array', async () => {
+			await expect(NekosiaAPI.fetchImages({ tags: 'not-an-array' }))
+				.rejects
+				.toThrow('`tags` must be a non-empty array');
 		});
 
 		it('should correctly call fetchImages with additionalTags', async () => {
@@ -74,8 +108,10 @@ describe('NekosiaAPI', () => {
 	});
 
 	describe('fetchById', () => {
-		it('should throw an error if id is not provided', async () => {
-			await expect(NekosiaAPI.fetchById()).rejects.toThrow('`id` parameter is required');
+		it('should throw an error if id is missing or empty', async () => {
+			for (const id of [undefined, '']) {
+				await expect(NekosiaAPI.fetchById(id)).rejects.toThrow('`id` parameter is required');
+			}
 		});
 
 		it('should correctly fetch image by ID', async () => {

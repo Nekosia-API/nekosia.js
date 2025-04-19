@@ -126,7 +126,7 @@ describe('nekosia.js tests', () => {
 		});
 
 		it('should return error for valid format but non-existent ID', async () => {
-			const res = await NekosiaAPI.fetchById('aaaaaaaaaaaaaaaaaaaaaaaa');
+			const res = await NekosiaAPI.fetchById('keyboardcat');
 			expect(res.success).toBe(false);
 			expect(400).toBe(res.status);
 		});

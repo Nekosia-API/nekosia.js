@@ -27,18 +27,19 @@ class NekosiaAPI {
 
 	async fetchCategoryImages(category, options = {}) {
 		if (!category) {
-			throw new Error('The image category is required. For example, use fetchCategoryImages(\'catgirl\').');
+			throw new Error('Image category is required. For example: fetchCategoryImages(\'catgirl\')');
 		}
 
 		if (options.session && !['id', 'ip'].includes(options.session)) {
-			throw new Error('The `session` setting can contain only the following values `id` and `ip`, both as strings.');
+			throw new Error('The `session` setting can contain only the following values `id` and `ip`, both as strings');
 		}
 
 		if (!options.session && options.id) {
 			throw new Error('`id` is not required if the session is `null` or `undefined`');
 		}
 
-		return this.makeHttpRequest(`${API_URL}/images/${category}?${this.buildQueryParams(options)}`);
+		const query = this.buildQueryParams(options);
+		return this.makeHttpRequest(`${API_URL}/images/${category}${query ? `?${query}` : ''}`);
 	}
 
 	async fetchImages(options = {}) {
