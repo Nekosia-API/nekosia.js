@@ -1,45 +1,92 @@
 const { NekosiaAPI } = require('../index.js');
 
-describe('NekosiaAPI (API Tests)', () => {
+describe('nekosia.js tests', () => {
 
 	describe('fetchCategoryImages', () => {
 		it('should fetch images for the given category', async () => {
 			const res = await NekosiaAPI.fetchCategoryImages('catgirl', { count: 1 });
 
 			expect(res).toBeInstanceOf(Object);
-			expect(res.success).toBe(true);
-			expect(res.status).toBe(200);
+			expect(res).toMatchObject({
+				success: true,
+				status: 200,
+				category: expect.any(String),
+				id: expect.any(String),
+				image: {
+					original: {
+						url: expect.any(String),
+						extension: expect.any(String),
+					},
+					compressed: {
+						url: expect.any(String),
+						extension: expect.any(String),
+					},
+				},
+				metadata: {
+					original: {
+						width: expect.any(Number),
+						height: expect.any(Number),
+						size: expect.any(Number),
+						extension: expect.any(String),
+					},
+					compressed: {
+						width: expect.any(Number),
+						height: expect.any(Number),
+						size: expect.any(Number),
+						extension: expect.any(String),
+					},
+				},
+				tags: expect.any(Array),
+				rating: expect.any(String),
+				source: {
+					url: expect.any(String),
+				},
+			});
 
-			expect(res).toHaveProperty('category');
-			expect(res).toHaveProperty('id');
-			expect(res).toHaveProperty('image');
-
-			expect(res.image).toHaveProperty('original');
-			expect(res.image).toHaveProperty('compressed');
-			expect(res.image.original).toHaveProperty('url');
-			expect(res.image.original).toHaveProperty('extension');
-			expect(res.image.compressed).toHaveProperty('url');
-			expect(res.image.compressed).toHaveProperty('extension');
-
-			expect(res.metadata).toHaveProperty('original');
-			expect(res.metadata.original).toHaveProperty('width');
-			expect(res.metadata.original).toHaveProperty('height');
-			expect(res.metadata.original).toHaveProperty('size');
-			expect(res.metadata.original).toHaveProperty('extension');
-
-			expect(res.metadata).toHaveProperty('compressed');
-			expect(res.metadata.compressed).toHaveProperty('width');
-			expect(res.metadata.compressed).toHaveProperty('height');
-			expect(res.metadata.compressed).toHaveProperty('size');
-			expect(res.metadata.compressed).toHaveProperty('extension');
-
-			expect(res).toHaveProperty('tags');
-			expect(res.tags).toBeInstanceOf(Array);
 			expect(res.tags.length).toBeGreaterThan(0);
+		});
 
-			expect(res).toHaveProperty('rating');
-			expect(res).toHaveProperty('source');
-			expect(res.source).toHaveProperty('url');
+		it('should handle the random category', async () => {
+			const res = await NekosiaAPI.fetchCategoryImages('random');
+
+			expect(res).toBeInstanceOf(Object);
+			expect(res).toMatchObject({
+				success: true,
+				status: 200,
+				category: expect.any(String),
+				id: expect.any(String),
+				image: {
+					original: {
+						url: expect.any(String),
+						extension: expect.any(String),
+					},
+					compressed: {
+						url: expect.any(String),
+						extension: expect.any(String),
+					},
+				},
+				metadata: {
+					original: {
+						width: expect.any(Number),
+						height: expect.any(Number),
+						size: expect.any(Number),
+						extension: expect.any(String),
+					},
+					compressed: {
+						width: expect.any(Number),
+						height: expect.any(Number),
+						size: expect.any(Number),
+						extension: expect.any(String),
+					},
+				},
+				tags: expect.any(Array),
+				rating: expect.any(String),
+				source: {
+					url: expect.any(String),
+				},
+			});
+
+			expect(res.tags.length).toBeGreaterThan(0);
 		});
 
 		it('should return an error for an invalid category', async () => {
