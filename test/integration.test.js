@@ -12,7 +12,7 @@ describe('NekosiaAPI', () => {
 		it('should correctly build query params', () => {
 			const options = { count: 3, additionalTags: ['tag1', 'tag2', 'tag3', 'tag4'], emptyValue: '', nullValue: null };
 			const result = NekosiaAPI.buildQueryParams(options);
-			expect(result).toBe('count=3&additionalTags=tag1,tag2,tag3,tag4');
+			expect(result).toBe('count=3&additionalTags=tag1%2Ctag2%2Ctag3%2Ctag4');
 		});
 
 		it('should return empty string for empty options', () => {
@@ -99,7 +99,7 @@ describe('NekosiaAPI', () => {
 			const mockResponse = { data: { results: [] } };
 			https.get.mockResolvedValue(mockResponse);
 
-			const expectedEndpoint = 'https://api.nekosia.cat/api/v1/images/nothing?count=1&additionalTags=dark,shadow';
+			const expectedEndpoint = 'https://api.nekosia.cat/api/v1/images/nothing?count=1&additionalTags=dark%2Cshadow';
 			const res = await NekosiaAPI.fetchImages({ count: 1, tags: ['dark', 'shadow'] });
 
 			expect(res).toEqual(mockResponse);
