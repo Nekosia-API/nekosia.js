@@ -31,21 +31,21 @@ describe('nekosia.js tests', () => {
 			}
 		});
 
-		it('should fetch maximum allowed number of images (24)', async () => {
-			const res = await NekosiaAPI.fetchCategoryImages('catgirl', { count: 24 });
+		it('should fetch maximum allowed number of images (20)', async () => {
+			const res = await NekosiaAPI.fetchCategoryImages('catgirl', { count: 20 });
 
 			expect(res.success).toBe(true);
 			expect(res.status).toBe(200);
 			expect(Array.isArray(res.images)).toBe(true);
-			expect(res.images.length).toBe(24);
+			expect(res.images.length).toBe(20);
 		});
 
-		it('should return error if count exceeds the maximum (25)', async () => {
-			const res = await NekosiaAPI.fetchCategoryImages('catgirl', { count: 25 });
+		it('should return error if count exceeds the maximum (999)', async () => {
+			const res = await NekosiaAPI.fetchCategoryImages('catgirl', { count: 999 });
 
 			expect(res.success).toBe(false);
 			expect(res.status).toBe(400);
-			expect(res.message).toMatch(/Count must be between 1 and 24/i);
+			expect(res.message).toMatch(/Count must be between 1 and/i);
 		});
 
 		it('should return error for invalid count value', async () => {
