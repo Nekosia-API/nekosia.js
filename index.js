@@ -5,28 +5,29 @@ const API_URL = `${BASE_URL}/api/v1`;
 class NekosiaAPI {
 	buildQueryParams(options = {}) {
 		return Object.entries(options)
-			.filter(([, value]) => {
-				if (typeof value === 'string' && value.includes(',')) {
-					throw new Error('A single tag in the string cannot contain commas. Please use an array instead.');
+			.filter(([, value]) =>
+				value != null &&
+				value !== '' &&
+				(!Array.isArray(value) || value.length > 0)
+			)
+			.map(([key, value]) => {
+				if (Array.isArray(value)) {
+					return `${encodeURIComponent(key)}=${value.map(v => encodeURIComponent(v)).join('%2C')}`;
 				}
-
-				return value != null && value !== '' && (!Array.isArray(value) || value.length > 0);
+				if (typeof value === 'string' && value.includes(',')) {
+					throw new Error('String values must not contain commas. Use an array instead.');
+				}
+				return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
 			})
-			.map(([key, value]) => `${encodeURIComponent(key)}=${value}`)
 			.join('&');
 	}
 
 	async makeHttpRequest(endpoint) {
-		try {
-			return https.get(endpoint);
-		} catch (err) {
-			console.error(`HTTP request failed for endpoint ${endpoint}: ${err.message}`);
-			throw err;
-		}
+		return https.get(endpoint);
 	}
 
 	async fetchCategoryImages(category, options = {}) {
-		if (!category) {
+		if (typeof category !== 'string' || !category.trim()) {
 			throw new Error('Image category is required. For example: fetchCategoryImages(\'catgirl\')');
 		}
 
@@ -39,7 +40,7 @@ class NekosiaAPI {
 		}
 
 		const query = this.buildQueryParams(options);
-		return this.makeHttpRequest(`${API_URL}/images/${category}${query ? `?${query}` : ''}`);
+		return this.makeHttpRequest(`${API_URL}/images/${encodeURIComponent(category)}${query ? `?${query}` : ''}`);
 	}
 
 	async fetchImages(options = {}) {
@@ -65,8 +66,7 @@ class NekosiaAPI {
 	}
 
 	async fetchById(id) {
-		if (!id) throw new Error('`id` parameter is required');
-
+		if (typeof id !== 'string' || !id.trim()) throw new Error('`id` parameter is required');
 		return this.makeHttpRequest(`${API_URL}/getImageById/${id}`);
 	}
 }
