@@ -50,6 +50,7 @@ To install the Nekosia.js module, use the following command:
 npm install nekosia.js
 ```
 
+Nekosia.js is an **ESM-first** package. Use `import` to load it in your project. For CommonJS environments simply `require('nekosia.js')` which loads the CJS build.
 
 ## 🔤 Tag list
 You can find the main image categories [here](https://nekosia.cat/documentation?page=api-endpoints#tags-and-categories).
@@ -60,7 +61,7 @@ The full list of tags is available [on the Booru site](https://nekosia.cat/booru
 
 ### Simple Example
 ```js
-const { NekosiaAPI } = require('nekosia.js');
+import { NekosiaAPI } from 'nekosia.js';
 
 (async () => {
 	const response1 = await NekosiaAPI.fetchCategoryImages('catgirl');
@@ -73,11 +74,21 @@ const { NekosiaAPI } = require('nekosia.js');
 })();
 ```
 
+### CommonJS Usage
+```js
+const { NekosiaAPI } = require('nekosia.js');
+
+(async () => {
+        const img = await NekosiaAPI.fetchCategoryImages('catgirl');
+        console.log(img);
+})();
+```
+
 ### IP-based Sessions
 In this example, we used an IP-based session. What does this mean? Thanks to this solution, a user with a specific IP address will not encounter duplicate images when selecting them randomly.
 
 ```js
-const { NekosiaAPI } = require('nekosia.js');
+import { NekosiaAPI } from 'nekosia.js';
 
 (async () => {
 	const response = await NekosiaAPI.fetchCategoryImages('catgirl', {
@@ -95,7 +106,7 @@ const { NekosiaAPI } = require('nekosia.js');
 You can also use `id`, but this requires providing a user identifier (e.g., from Discord). Pass this information in `id` as a string.
 
 ```js
-const { NekosiaAPI } = require('nekosia.js');
+import { NekosiaAPI } from 'nekosia.js';
 
 (async () => {
 	const response = await NekosiaAPI.fetchCategoryImages('catgirl', {
@@ -116,7 +127,7 @@ https://github.com/Nekosia-API/nekosia.js/tree/main/examples
 
 ## Tags
 ```js
-const { NekosiaAPI } = require('nekosia.js');
+import { NekosiaAPI } from 'nekosia.js';
 
 (async () => {
 	console.log(await NekosiaAPI.fetchTags()); // Simply returns all available tags, etc.
@@ -126,7 +137,7 @@ const { NekosiaAPI } = require('nekosia.js');
 
 ## Versions
 ```js
-const { NekosiaVersion } = require('nekosia.js');
+import { NekosiaVersion } from 'nekosia.js';
 
 (async () => {
 	console.log(NekosiaVersion.module); // Returns the installed module version

@@ -1,12 +1,13 @@
-const { NekosiaAPI } = require('../index.js');
-const https = require('../services/https.js');
+import { jest } from '@jest/globals';
+import { NekosiaAPI } from '../index.js';
+import https from '../services/https.js';
 
-jest.mock('../services/https.js');
+jest.spyOn(https, 'get');
 
 describe('NekosiaAPI', () => {
-	beforeEach(() => {
-		https.get.mockClear();
-	});
+        beforeEach(() => {
+                https.get.mockReset();
+        });
 
 	describe('buildQueryParams', () => {
 		it('should correctly build query params', () => {

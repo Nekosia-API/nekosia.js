@@ -47,15 +47,22 @@
   },
   "license": "MIT",
   "author": "Sefinek <contact@nekosia.cat> (https://nekosia.cat)",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
   "types": "types/index.d.ts",
   "directories": {
     "example": "examples",
     "test": "test"
   },
   "scripts": {
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "up": "ncu -u && npm install && npm update && npm audit fix"
   },
   "devDependencies": {

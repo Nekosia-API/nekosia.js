@@ -1,4 +1,4 @@
-const { NekosiaVersion } = require('../index.js');
+import { NekosiaVersion } from '../index.js';
 
 (async () => {
 	console.log(`Nekosia.js: v${NekosiaVersion.module}`);

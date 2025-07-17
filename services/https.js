@@ -1,5 +1,9 @@
-const https = require('https');
-const { name, version, devDependencies } = require('../package.json');
+import https from 'https';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+const { name, version: pkgVersion, devDependencies } = require('../package.json');
+const version = pkgVersion;
 
 const headers = {
 	'User-Agent': `${name}/${version} (+https://github.com/Nekosia-API/nekosia.js)${process.env.JEST_WORKER_ID ? ` jest/${devDependencies.jest.replace(/^[^0-9]*/, '')}` : ''}`,
@@ -46,4 +50,7 @@ const get = async url => {
 	});
 };
 
-module.exports = { get, version };
+const httpService = { get, version };
+
+export { get, version };
+export default httpService;
