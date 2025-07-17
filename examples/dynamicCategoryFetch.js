@@ -1,4 +1,4 @@
-const { NekosiaAPI } = require('../index.js');
+import { NekosiaAPI } from '../index.js';
 
 const fetch = async (category, options = {}) => {
 	try {

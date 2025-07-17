@@ -1,4 +1,4 @@
-const { NekosiaAPI } = require('../index.js');
+import { NekosiaAPI } from '../index.js';
 
 (async () => {
 	const json = await NekosiaAPI.fetchTags();

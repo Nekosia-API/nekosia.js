@@ -1,8 +1,9 @@
-const https = require('./services/https.js');
+import https, { version as moduleVersion } from './services/https.js';
+
 const BASE_URL = 'https://api.nekosia.cat';
 const API_URL = `${BASE_URL}/api/v1`;
 
-class NekosiaAPI {
+class InternalNekosiaAPI {
 	buildQueryParams(options = {}) {
 		return Object.entries(options)
 			.filter(([, value]) =>
@@ -23,7 +24,7 @@ class NekosiaAPI {
 	}
 
 	async makeHttpRequest(endpoint) {
-		return https.get(endpoint);
+       return https.get(endpoint);
 	}
 
 	async fetchCategoryImages(category, options = {}) {
@@ -71,12 +72,14 @@ class NekosiaAPI {
 	}
 }
 
-const NekosiaVersion = {
-	module: https.version,
-	api: async () => https.get(BASE_URL),
+export const NekosiaVersion = {
+       module: moduleVersion,
+       api: async () => https.get(BASE_URL),
 };
 
-module.exports = {
-	NekosiaAPI: new NekosiaAPI(),
-	NekosiaVersion,
+export const NekosiaAPI = new InternalNekosiaAPI();
+
+export default {
+        NekosiaAPI,
+        NekosiaVersion,
 };
