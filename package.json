@@ -1,6 +1,6 @@
 {
   "name": "nekosia.js",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "A simple wrapper for the Nekosia API that provides easy access to random anime images. Enrich your projects with a touch of anime magic and feline charm, meow~! Discover why switching to Nekosia is the purrfect choice! 💗",
   "keywords": [
     "anime",
@@ -63,8 +63,8 @@
     "up": "ncu -u && npm install && npm update && npm audit fix"
   },
   "devDependencies": {
-    "@eslint/js": "^9.32.0",
-    "globals": "^16.3.0",
-    "jest": "^30.0.5"
+    "@eslint/js": "^9.39.1",
+    "globals": "^16.5.0",
+    "jest": "^30.2.0"
   }
 }

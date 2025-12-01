@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>🖼️ Nekosia.js API — Random Anime Images</h1>
+    <h1>🖼️ Nekosia.js API: Random Anime Images</h1>
 </div>
 
 Nekosia.js is a Node.js module that provides easy access to the Nekosia API, a rich source of anime-themed images.
