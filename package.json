@@ -59,8 +59,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest",
-    "up": "ncu -u && npm install && npm update && npm audit fix"
+    "m": "ncu -u && npm install && npm update",
+    "test": "jest"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
