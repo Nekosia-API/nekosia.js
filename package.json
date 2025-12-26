@@ -63,7 +63,7 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
+    "@eslint/js": "^9.39.2",
     "globals": "^16.5.0",
     "jest": "^30.2.0"
   }
