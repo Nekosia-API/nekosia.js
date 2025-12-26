@@ -58,6 +58,13 @@
     "example": "examples",
     "test": "test"
   },
+  "files": [
+    "services",
+    "types",
+    "index.js",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "m": "ncu -u && npm install && npm update",
     "test": "jest"
