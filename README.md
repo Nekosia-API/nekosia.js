@@ -66,6 +66,7 @@ const { NekosiaAPI } = require('nekosia.js');
 	const response1 = await NekosiaAPI.fetchCategoryImages('catgirl');
 	console.log(response1);
 	
+	// `tags` is required and must be a non-empty array
 	const response2 = await NekosiaAPI.fetchImages({ session: 'ip', count: 1, tags: ['cute', 'blue-hair'], blacklist: ['yellow-hair'] });
 	console.log(response2);
 	
@@ -75,6 +76,7 @@ const { NekosiaAPI } = require('nekosia.js');
 
 ### IP-based Sessions
 In this example, we used an IP-based session. What does this mean? Thanks to this solution, a user with a specific IP address will not encounter duplicate images when selecting them randomly.
+When using `session: 'ip'`, do not pass `id`.
 
 ```js
 const { NekosiaAPI } = require('nekosia.js');
@@ -93,6 +95,7 @@ const { NekosiaAPI } = require('nekosia.js');
 
 ### ID-based Sessions
 You can also use `id`, but this requires providing a user identifier (e.g., from Discord). Pass this information in `id` as a string.
+`id` can be used only when `session` is set to `'id'`.
 
 ```js
 const { NekosiaAPI } = require('nekosia.js');

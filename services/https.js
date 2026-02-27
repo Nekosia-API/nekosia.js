@@ -1,4 +1,4 @@
-const https = require('https');
+const client = require(process.env.NEKOSIA_API_LOCAL ? 'http' : 'https');
 const { name, version, devDependencies } = require('../package.json');
 
 const headers = {
@@ -10,39 +10,49 @@ const headers = {
 	'DNT': '1',
 };
 
-const timeout = 15000;
+const timeout = process.env.NEKOSIA_API_TIMEOUT || 15000;
+
+const agent = new client.Agent({ keepAlive: true });
+const isJsonContentType = contentType => typeof contentType === 'string' && contentType.includes('application/json');
 
 const get = async url => {
 	if (!url || typeof url !== 'string') throw new Error('Missing URL, expected a string');
 
 	return new Promise((resolve, reject) => {
-		const req = https.get(url, { headers, timeout }, res => {
+		const req = client.get(url, { headers, agent }, res => {
 			const { statusCode } = res;
-			if ((statusCode < 200 || statusCode >= 300) && statusCode !== 400) {
-				req.destroy();
-				return reject(new Error(`Unexpected HTTP Status Code: ${statusCode || 'unknown'}`));
-			}
-
+			const contentType = res.headers['content-type'];
 			let data = '';
-			res.on('data', chunk => data += chunk);
+
+			res.on('data', chunk => {
+				data += chunk;
+			});
+
 			res.on('end', () => {
+				if (!isJsonContentType(contentType)) {
+					return reject(new Error(`Expected application/json response, received: ${contentType ?? 'unknown'}`));
+				}
+
 				try {
-					resolve(JSON.parse(data));
-				} catch (err) {
-					reject(err);
+					const payload = JSON.parse(data);
+					const isSuccessfulStatus = statusCode >= 200 && statusCode < 300;
+					if (!isSuccessfulStatus && (payload == null || typeof payload !== 'object')) {
+						return reject(new Error(`Unexpected HTTP Status Code: ${statusCode ?? 'unknown'}`));
+					}
+
+					resolve(payload);
+				} catch {
+					reject(new Error('Invalid JSON response'));
 				}
 			});
 		});
 
-		req.on('error', err => {
-			req.destroy();
-			reject(err);
-		});
-
-		req.on('timeout', () => {
+		req.setTimeout(timeout, () => {
 			req.destroy();
 			reject(new Error(`Request timed out after ${timeout} ms`));
 		});
+
+		req.once('error', reject);
 	});
 };
 

@@ -1,3 +1,4 @@
+const { beforeEach, describe, it, expect, jest: jestGlobals } = require('@jest/globals');
 const { NekosiaAPI } = require('../index.js');
 const https = require('../services/https.js');
 
@@ -39,7 +40,7 @@ describe('NekosiaAPI', () => {
 
 			const endpoint = 'https://api.nekosia.cat/test-endpoint';
 
-			const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+			const consoleErrorSpy = jestGlobals.spyOn(console, 'error').mockImplementation(() => undefined);
 
 			await expect(NekosiaAPI.makeHttpRequest(endpoint)).rejects.toThrow('Request failed');
 			expect(https.get).toHaveBeenCalledWith(endpoint);
@@ -82,6 +83,29 @@ describe('NekosiaAPI', () => {
 			expect(https.get).toHaveBeenCalledWith(expectedEndpoint);
 		});
 
+		it('should throw if session is `id` and id is missing', async () => {
+			await expect(NekosiaAPI.fetchCategoryImages('catgirl', { session: 'id' }))
+				.rejects
+				.toThrow('`id` is required when the `session` is set to `id`');
+		});
+
+		it('should throw if id is provided with session different than `id`', async () => {
+			await expect(NekosiaAPI.fetchCategoryImages('catgirl', { session: 'ip', id: '123' }))
+				.rejects
+				.toThrow('`id` can only be used when the `session` is set to `id`');
+		});
+
+		it('should trim category and id before request', async () => {
+			const mockResponse = { data: { results: [] } };
+			https.get.mockResolvedValue(mockResponse);
+
+			const expectedEndpoint = 'https://api.nekosia.cat/api/v1/images/catgirl?session=id&id=abc123';
+			const res = await NekosiaAPI.fetchCategoryImages(' catgirl ', { session: 'id', id: ' abc123 ' });
+
+			expect(res).toEqual(mockResponse);
+			expect(https.get).toHaveBeenCalledWith(expectedEndpoint);
+		});
+
 	});
 
 	describe('fetchImages', () => {
@@ -105,6 +129,13 @@ describe('NekosiaAPI', () => {
 			expect(res).toEqual(mockResponse);
 			expect(https.get).toHaveBeenCalledWith(expectedEndpoint);
 		});
+
+		it('should throw if deprecated blacklistedTags is provided', async () => {
+			await expect(NekosiaAPI.fetchImages({
+				tags: ['catgirl'],
+				blacklistedTags: 'dog-girl',
+			})).rejects.toThrow('Unexpected `blacklistedTags` in `fetchImages()`, use `blacklist` instead');
+		});
 	});
 
 	describe('fetchById', () => {
@@ -123,6 +154,17 @@ describe('NekosiaAPI', () => {
 
 			expect(res).toEqual(mockResponse);
 			expect(https.get).toHaveBeenCalledWith(`https://api.nekosia.cat/api/v1/getImageById/${id}`);
+		});
+
+		it('should encode and trim ID in request URL', async () => {
+			const mockResponse = { data: { id: 'abc/123' } };
+			https.get.mockResolvedValue(mockResponse);
+
+			const id = ' abc/123 ';
+			const res = await NekosiaAPI.fetchById(id);
+
+			expect(res).toEqual(mockResponse);
+			expect(https.get).toHaveBeenCalledWith('https://api.nekosia.cat/api/v1/getImageById/abc%2F123');
 		});
 	});
 });

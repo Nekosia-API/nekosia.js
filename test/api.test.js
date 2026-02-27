@@ -1,3 +1,4 @@
+const { describe, it, expect } = require('@jest/globals');
 const { NekosiaAPI } = require('../index.js');
 
 const expectValidImageObject = res => {
@@ -9,9 +10,7 @@ const expectValidImageObject = res => {
 };
 
 describe('nekosia.js tests', () => {
-
 	describe('fetchCategoryImages', () => {
-
 		it('should fetch one image when count is 1', async () => {
 			const res = await NekosiaAPI.fetchCategoryImages('catgirl', { count: 1 });
 			expectValidImageObject(res);

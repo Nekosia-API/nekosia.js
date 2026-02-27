@@ -3,6 +3,21 @@ import { TAGS } from './tags.ts';
 declare module 'nekosia.js' {
     type HexColor = `#${string}`;
     type AllTagsList = typeof TAGS[number];
+    type TagValue = AllTagsList | string;
+    type TagList = TagValue[];
+    type NonEmptyTagList = [TagValue, ...TagValue[]];
+    type SessionOptions =
+        | { session?: undefined; id?: undefined }
+        | { session: 'ip'; id?: undefined }
+        | { session: 'id'; id: string };
+    type StrictFetchImagesCategoryOptions =
+        Omit<FetchImagesCategoryOptions, 'session' | 'id' | 'additionalTags' | 'blacklistedTags'>
+        & SessionOptions
+        & { additionalTags?: TagValue | TagList; blacklistedTags?: TagValue | TagList };
+    type StrictFetchImagesOptions =
+        Omit<FetchImagesOptions, 'session' | 'id' | 'tags' | 'blacklist' | 'blacklistedTags'>
+        & SessionOptions
+        & { tags: NonEmptyTagList; blacklist?: TagValue | TagList; blacklistedTags?: never };
 
     /**
      * Configuration options for the `fetchCategoryImages` function.
@@ -41,7 +56,7 @@ declare module 'nekosia.js' {
          * @example ["cute", "sakura", "blue-eyes"]
          * @default []
          */
-        additionalTags?: AllTagsList | AllTagsList[];
+        additionalTags?: TagValue | TagList;
 
         /**
          * Tags to exclude from the image search.
@@ -50,16 +65,15 @@ declare module 'nekosia.js' {
          * @example ["beret", "hat", "short-hair"]
          * @default []
          */
-        blacklistedTags?: AllTagsList | AllTagsList[];
+        blacklistedTags?: TagValue | TagList;
 
         /**
          * Defines the content rating of an image.
          * The rating indicates the appropriateness of the content, specifying whether the image is suitable for all audiences or contains content that may be sensitive or inappropriate for certain viewers.
          *
          * Possible values:
-         * - `safe`: Suitable for all audiences, contains no explicit or questionable content.
-         * - `questionable`: May contain content sensitive or inappropriate for younger audiences, but not explicit.
-         * - `nsfw`: Contains explicit content, not safe for work (NSFW).
+         * - `safe`: Suitable for all audiences.
+         * - `suggestive`: May contain mildly suggestive content.
          *
          * The default value is ALWAYS `safe`.
          * @type String
@@ -101,12 +115,11 @@ declare module 'nekosia.js' {
 
         /**
          * Additional tags to include in the image search.
-         * This can be a single string representing one tag or an array of strings for multiple tags.
+         * This must be a non-empty array of strings.
          * @type Array
          * @example ["cute", "sakura", "cherry-blossom"]
-         * @default []
          */
-        tags?: AllTagsList | AllTagsList[];
+        tags: NonEmptyTagList;
 
         /**
          * Tags to exclude from the image search.
@@ -115,23 +128,22 @@ declare module 'nekosia.js' {
          * @example ["beret", "hat", "short-hair"]
          * @default []
          */
-        blacklist?: AllTagsList | AllTagsList[];
+        blacklist?: TagValue | TagList;
 
         /**
          * Defines the content rating of an image.
          * The rating indicates the appropriateness of the content, specifying whether the image is suitable for all audiences or contains content that may be sensitive or inappropriate for certain viewers.
          *
          * Possible values:
-         * - `safe`: Suitable for all audiences, contains no explicit or questionable content.
-         * - `questionable`: May contain content sensitive or inappropriate for younger audiences, but not explicit.
-         * - `nsfw`: Contains explicit content, not safe for work (NSFW).
+         * - `safe`: Suitable for all audiences.
+         * - `suggestive`: May contain mildly suggestive content.
          *
          * The default value is ALWAYS `safe`.
          * @type String
          * @example safe
          * @default safe
          */
-        rating?: 'safe' | 'questionable' | 'nsfw';
+        rating?: 'safe' | 'suggestive';
     }
 
     /**
@@ -282,30 +294,30 @@ declare module 'nekosia.js' {
          * Session key, if applicable, otherwise `null`.
          * @type String
          */
-        key: string | null;
+        key?: string | null;
 
         /**
          * Number of images included in the response.
          * @type Number
          */
-        count: number;
+        count?: number;
 
         /**
          * Unique identifier for the image.
          * @type String
          */
-        id: string;
+        id?: string;
 
         /**
          * Object containing the dominant colors of the fetched image.
          * @type Object
          */
-        colors: ImageColors;
+        colors?: ImageColors;
 
         /**
          * Object containing details about both the original and compressed images.
          */
-        image: {
+        image?: {
             /**
              * The original uncompressed image. Includes EXIF data to credit the artist.
              * @type Object
@@ -323,52 +335,62 @@ declare module 'nekosia.js' {
          * Metadata for both the original and compressed images.
          * @type Object
          */
-        metadata: { original: ImageMetadata; compressed: ImageMetadata };
+        metadata?: { original: ImageMetadata; compressed: ImageMetadata };
 
         /**
          * The category the image belongs to.
          * @type String
          * @example "catgirl"
          */
-        category: string;
+        category?: string;
 
         /**
          * Tags associated with the image.
          * @type Array
          */
-        tags: string[];
+        tags?: string[];
 
         /**
          * Content rating of the image.
          *
          * `safe` - Image safe for all audiences.
          *
+         * `suggestive` - Image may contain mildly suggestive content.
+         *
          * `questionable` - Image may contain content unsuitable for some viewers.
          *
          * `nsfw` - Image contains adult content (Not Safe For Work).
          *
          * @type String
-         * @output 'safe' | 'questionable' | 'nsfw'
+         * @output 'safe' | 'suggestive' | 'questionable' | 'nsfw'
          */
-        rating: 'safe' | 'questionable' | 'nsfw';
+        rating?: 'safe' | 'questionable' | 'nsfw' | 'suggestive';
 
         /**
          * Information about the anime (or related media) the image may be associated with.
          * @type Object
          */
-        anime: ImageAnime;
+        anime?: ImageAnime;
 
         /**
          * Details about the source of the image.
          * @type Object
          */
-        source: ImageSource;
+        source?: ImageSource;
 
         /**
          * Information about the artist and the associated copyright of the image.
          * @type Object
          */
-        attribution: ImageAttribution;
+        attribution?: ImageAttribution;
+        message?: string;
+        images?: Array<{
+            image: {
+                original: ImageDetails;
+                compressed: ImageDetails;
+            };
+            [key: string]: unknown;
+        }>;
     }
 
     /**
@@ -383,10 +405,12 @@ declare module 'nekosia.js' {
     }
 
     /**
-     * Nekosia API class, containing methods for fetching images.
-     * All methods are asynchronous and return a Promise resolving to an `ImageResponse`.
+     * Nekosia API instance, containing methods for fetching images.
+     * All methods are asynchronous and return a Promise.
      */
-    export class NekosiaAPI {
+    export const NekosiaAPI: {
+        buildQueryParams(options?: Record<string, unknown>): string;
+        makeHttpRequest(endpoint: string): Promise<unknown>;
         /**
          * Fetches images from a selected category by sending a GET request to the API.
          * @param category - The category of images to fetch (e.g., `catgirl`).
@@ -401,11 +425,11 @@ declare module 'nekosia.js' {
          * @type Object
          * @returns A Promise resolving to an `ImageResponse`.
          */
-        static fetchCategoryImages(category: AllTagsList | 'random', options?: FetchImagesCategoryOptions): Promise<ImageResponse>;
+        fetchCategoryImages(category: AllTagsList | 'random' | string, options?: StrictFetchImagesCategoryOptions): Promise<ImageResponse>;
 
         /**
          * Fetches images based solely on the tags provided by the user. The main category does not affect the image selection as it is not provided here.
-         * @param options - Configuration options for the request (optional).
+         * @param options - Configuration options for the request.
          * @example
          * const { NekosiaAPI } = require('nekosia.js');
          * await NekosiaAPI.fetchImages({
@@ -416,13 +440,13 @@ declare module 'nekosia.js' {
          * @type Object
          * @returns A Promise resolving to an `ImageResponse`.
          */
-        static fetchImages(options?: FetchImagesOptions): Promise<ImageResponse>;
+        fetchImages(options: StrictFetchImagesOptions): Promise<ImageResponse>;
 
         /**
          * Fetches the latest array with tags, anime titles, and characters
-         * @returns A Promise resolving to an `ImageResponse`.
+         * @returns A Promise resolving to a `TagsResponse`.
          */
-        static fetchTags(id: string): Promise<TagsResponse>;
+        fetchTags(): Promise<TagsResponse>;
 
         /**
          * Fetches an image by its identifier.
@@ -430,8 +454,8 @@ declare module 'nekosia.js' {
          * @type Object
          * @returns A Promise resolving to an `ImageResponse`.
          */
-        static fetchById(id: string): Promise<ImageResponse>;
-    }
+        fetchById(id: string): Promise<ImageResponse>;
+    };
 
     /**
      * JSON object response from the API containing information about the current version and related details.

@@ -1,6 +1,7 @@
 const https = require('./services/https.js');
-const BASE_URL = 'https://api.nekosia.cat';
+const BASE_URL = process.env.NEKOSIA_API_LOCAL || 'https://api.nekosia.cat';
 const API_URL = `${BASE_URL}/api/v1`;
+const VALID_SESSIONS = new Set(['id', 'ip']);
 
 class NekosiaAPI {
 	buildQueryParams(options = {}) {
@@ -11,12 +12,9 @@ class NekosiaAPI {
 				(!Array.isArray(value) || value.length > 0)
 			)
 			.map(([key, value]) => {
-				if (Array.isArray(value)) {
-					return `${encodeURIComponent(key)}=${value.map(v => encodeURIComponent(v)).join('%2C')}`;
-				}
-				if (typeof value === 'string' && value.includes(',')) {
-					throw new Error('String values must not contain commas. Use an array instead.');
-				}
+				if (Array.isArray(value)) return `${encodeURIComponent(key)}=${value.map(v => encodeURIComponent(v)).join('%2C')}`;
+				if (typeof value === 'string' && value.includes(',')) throw new Error('String values must not contain commas. Use an array instead.');
+
 				return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
 			})
 			.join('&');
@@ -31,16 +29,29 @@ class NekosiaAPI {
 			throw new Error('Image category is required. For example: fetchCategoryImages(\'catgirl\')');
 		}
 
-		if (options.session && !['id', 'ip'].includes(options.session)) {
+		if (options.session && !VALID_SESSIONS.has(options.session)) {
 			throw new Error('The `session` setting can contain only the following values `id` and `ip`, both as strings');
 		}
 
-		if (!options.session && options.id) {
-			throw new Error('`id` is not required if the session is `null` or `undefined`');
+		if (options.id != null && (typeof options.id !== 'string' || !options.id.trim())) {
+			throw new Error('`id` must be a non-empty string when provided');
 		}
 
-		const query = this.buildQueryParams(options);
-		return this.makeHttpRequest(`${API_URL}/images/${encodeURIComponent(category)}${query ? `?${query}` : ''}`);
+		if (options.session === 'id' && !options.id) {
+			throw new Error('`id` is required when the `session` is set to `id`');
+		}
+
+		if (options.session !== 'id' && options.id != null) {
+			throw new Error('`id` can only be used when the `session` is set to `id`');
+		}
+
+		const normalizedOptions = {
+			...options,
+			id: typeof options.id === 'string' ? options.id.trim() : options.id,
+		};
+
+		const query = this.buildQueryParams(normalizedOptions);
+		return this.makeHttpRequest(`${API_URL}/images/${encodeURIComponent(category.trim())}${query ? `?${query}` : ''}`);
 	}
 
 	async fetchImages(options = {}) {
@@ -48,7 +59,7 @@ class NekosiaAPI {
 			throw new Error('`tags` must be a non-empty array');
 		}
 
-		if (Array.isArray(options.blacklistedTags)) {
+		if (options.blacklistedTags !== undefined) {
 			throw new Error('Unexpected `blacklistedTags` in `fetchImages()`, use `blacklist` instead');
 		}
 
@@ -67,7 +78,7 @@ class NekosiaAPI {
 
 	async fetchById(id) {
 		if (typeof id !== 'string' || !id.trim()) throw new Error('`id` parameter is required');
-		return this.makeHttpRequest(`${API_URL}/getImageById/${id}`);
+		return this.makeHttpRequest(`${API_URL}/getImageById/${encodeURIComponent(id.trim())}`);
 	}
 }
 
