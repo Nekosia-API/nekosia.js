@@ -141,4 +141,4 @@ If you have any questions or issues, create a new [Issue](https://github.com/Nek
 
 
 ## 📑 » MIT License
-Copyright 2024-2025 © by [Nekosia](https://nekosia.cat). All rights reserved.
+Copyright © 2024-2026 [Nekosia](https://nekosia.cat)
