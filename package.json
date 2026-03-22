@@ -66,7 +66,8 @@
   ],
   "scripts": {
     "m": "ncu -u && npm install && npm update",
-    "test": "jest"
+    "test": "jest",
+    "update-tags": "node update-tags.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
