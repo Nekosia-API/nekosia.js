@@ -10,7 +10,7 @@ const headers = {
 	'DNT': '1',
 };
 
-const timeout = Number(process.env.NEKOSIA_API_TIMEOUT) || 15000;
+const timeout = process.env.NEKOSIA_API_TIMEOUT !== undefined ? Number(process.env.NEKOSIA_API_TIMEOUT) : 15000;
 
 const agent = new client.Agent({ keepAlive: true });
 const isJsonContentType = contentType => typeof contentType === 'string' && contentType.includes('application/json');

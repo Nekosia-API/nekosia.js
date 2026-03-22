@@ -25,8 +25,8 @@ class NekosiaAPI {
 	}
 
 	async fetchCategoryImages(category, options = {}) {
-		const trimmedCategory = category.trim();
-		if (typeof category !== 'string' || !trimmedCategory) {
+		const trimmedCategory = typeof category === 'string' ? category.trim() : '';
+		if (!trimmedCategory) {
 			throw new Error('Image category is required. For example: fetchCategoryImages(\'catgirl\')');
 		}
 
