@@ -25,7 +25,8 @@ class NekosiaAPI {
 	}
 
 	async fetchCategoryImages(category, options = {}) {
-		if (typeof category !== 'string' || !category.trim()) {
+		const trimmedCategory = category.trim();
+		if (typeof category !== 'string' || !trimmedCategory) {
 			throw new Error('Image category is required. For example: fetchCategoryImages(\'catgirl\')');
 		}
 
@@ -51,7 +52,7 @@ class NekosiaAPI {
 		};
 
 		const query = this.buildQueryParams(normalizedOptions);
-		return this.makeHttpRequest(`${API_URL}/images/${encodeURIComponent(category.trim())}${query ? `?${query}` : ''}`);
+		return this.makeHttpRequest(`${API_URL}/images/${encodeURIComponent(trimmedCategory)}${query ? `?${query}` : ''}`);
 	}
 
 	async fetchImages(options = {}) {
@@ -69,6 +70,7 @@ class NekosiaAPI {
 			count: options.count,
 			additionalTags: options.tags,
 			blacklistedTags: options.blacklist,
+			rating: options.rating,
 		});
 	}
 
@@ -77,8 +79,10 @@ class NekosiaAPI {
 	}
 
 	async fetchById(id) {
-		if (typeof id !== 'string' || !id.trim()) throw new Error('`id` parameter is required');
-		return this.makeHttpRequest(`${API_URL}/getImageById/${encodeURIComponent(id.trim())}`);
+		const trimmedId = typeof id === 'string' ? id.trim() : '';
+		if (!trimmedId) throw new Error('`id` parameter is required');
+
+		return this.makeHttpRequest(`${API_URL}/getImageById/${encodeURIComponent(trimmedId)}`);
 	}
 }
 

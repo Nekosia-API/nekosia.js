@@ -10,7 +10,7 @@ const headers = {
 	'DNT': '1',
 };
 
-const timeout = process.env.NEKOSIA_API_TIMEOUT || 15000;
+const timeout = Number(process.env.NEKOSIA_API_TIMEOUT) || 15000;
 
 const agent = new client.Agent({ keepAlive: true });
 const isJsonContentType = contentType => typeof contentType === 'string' && contentType.includes('application/json');
@@ -21,20 +21,20 @@ const get = async url => {
 	return new Promise((resolve, reject) => {
 		const req = client.get(url, { headers, agent }, res => {
 			const { statusCode } = res;
+
 			const contentType = res.headers['content-type'];
-			let data = '';
+			if (!isJsonContentType(contentType)) {
+				res.resume();
+				return reject(new Error(`Expected application/json response, received: ${contentType ?? 'unknown'}`));
+			}
 
-			res.on('data', chunk => {
-				data += chunk;
-			});
+			const chunks = [];
 
+			res.on('error', reject);
+			res.on('data', chunk => chunks.push(chunk));
 			res.on('end', () => {
-				if (!isJsonContentType(contentType)) {
-					return reject(new Error(`Expected application/json response, received: ${contentType ?? 'unknown'}`));
-				}
-
 				try {
-					const payload = JSON.parse(data);
+					const payload = JSON.parse(Buffer.concat(chunks).toString());
 					const isSuccessfulStatus = statusCode >= 200 && statusCode < 300;
 					if (!isSuccessfulStatus && (payload == null || typeof payload !== 'object')) {
 						return reject(new Error(`Unexpected HTTP Status Code: ${statusCode ?? 'unknown'}`));

@@ -12,5 +12,5 @@ const fetch = async (category, options = {}) => {
 (async () => {
 	await fetch('catgirl');
 	await fetch('foxgirl', { session: 'id', id: 'user123', count: 2 });
-	await fetch('catgirl', { tags: 'animal-ears' });
+	await fetch('catgirl', { additionalTags: 'animal-ears' });
 })();
