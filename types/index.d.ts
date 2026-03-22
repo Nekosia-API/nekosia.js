@@ -397,11 +397,11 @@ declare module 'nekosia.js' {
      * GET https://api.nekosia.cat/api/v1/tags
      */
     interface TagsResponse {
-        status: number,
-        success: boolean,
-        tags: string[],
-        anime: string[],
-        characters: string[]
+        status: number;
+        success: boolean;
+        tags: string[];
+        anime: string[];
+        characters: string[];
     }
 
     /**
