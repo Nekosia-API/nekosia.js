@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const API_URL = 'https://api.nekosia.cat/api/v1/tags';
-const OUTPUT_PATH = path.join(__dirname, 'types', 'tags.ts');
+const OUTPUT_PATH = path.join(__dirname, '..', 'types', 'tags.ts');
 
 const fetch = url => new Promise((resolve, reject) => {
 	const req = https.get(url, { headers: { 'Accept': 'application/json' } }, res => {

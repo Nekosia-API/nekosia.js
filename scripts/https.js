@@ -3,11 +3,6 @@ const { name, version, devDependencies } = require('../package.json');
 
 const headers = {
 	'User-Agent': `${name}/${version} (+https://github.com/Nekosia-API/nekosia.js)${process.env.JEST_WORKER_ID ? ` jest/${devDependencies.jest.replace(/^[^0-9]*/, '')}` : ''}`,
-	'Accept': 'application/json',
-	'Content-Type': 'application/json',
-	'Cache-Control': 'no-cache',
-	'Connection': 'keep-alive',
-	'DNT': '1',
 };
 
 const timeout = process.env.NEKOSIA_API_TIMEOUT !== undefined ? Number(process.env.NEKOSIA_API_TIMEOUT) : 15000;

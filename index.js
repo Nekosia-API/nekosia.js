@@ -1,4 +1,4 @@
-const https = require('./services/https.js');
+const https = require('./scripts/https.js');
 const BASE_URL = process.env.NEKOSIA_API_LOCAL || 'https://api.nekosia.cat';
 const API_URL = `${BASE_URL}/api/v1`;
 const VALID_SESSIONS = new Set(['id', 'ip']);

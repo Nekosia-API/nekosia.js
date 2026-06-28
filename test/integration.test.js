@@ -1,8 +1,8 @@
 const { beforeEach, describe, it, expect, jest: jestGlobals } = require('@jest/globals');
 const { NekosiaAPI } = require('../index.js');
-const https = require('../services/https.js');
+const https = require('../scripts/https.js');
 
-jest.mock('../services/https.js');
+jest.mock('../scripts/https.js');
 
 describe('NekosiaAPI', () => {
 	beforeEach(() => {

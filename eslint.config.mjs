@@ -2,7 +2,7 @@ import js from '@eslint/js';
 import globals from 'globals';
 
 export default [
-	{ ignores: ['node_modules', '**/*.min.js', '**/*bundle*', 'build/**', 'dist/**', 'services/translations/**'] },
+	{ ignores: ['node_modules', '**/*.min.js', '**/*bundle*', 'build/**', 'dist/**', 'scripts/translations/**'] },
 	js.configs.recommended,
 	{
 		languageOptions: {
